@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    - name: npm install, build
+      run:
+        make install
+    - name: Run linter
+      run:
+        make lint
+    - name: Test & publish code coverage
+      uses: paambaati/codeclimate-action@v2.6.0
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMAT }}
+      with:
+        coverageCommand: make test-coverage
+        debug: true
