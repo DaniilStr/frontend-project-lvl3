@@ -1,3 +1,6 @@
+plugins:
+  - babel
+
 env:
   browser: true
   node: true
