@@ -6,6 +6,8 @@ env:
   node: true
   es2021: true
 
+parser: babel-eslint
+
 extends:
   - 'airbnb-base'
 

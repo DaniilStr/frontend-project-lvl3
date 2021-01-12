@@ -41,6 +41,7 @@
     "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
+    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1"
