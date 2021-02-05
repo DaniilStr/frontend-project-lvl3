@@ -1,22 +1,39 @@
-export default (path, value) => {
+import i18next from 'i18next';
+
+const fieldElement = document.querySelector('input');
+const submitButtonElement = document.querySelector('button');
+const hintElement = document.querySelector('.hint');
+const mainTitleElement = document.querySelector('.mainTitle');
+const promoElement = document.querySelector('.promo');
+
+const renderText = (t) => {
+  mainTitleElement.textContent = t('mainTitle');
+  hintElement.textContent = t('example');
+  submitButtonElement.textContent = t('addButton');
+  fieldElement.placeholder = t('placeholder');
+  promoElement.textContent = t('promo');
+};
+
+const makeRendering = (path, value) => {
   const inputElement = document.querySelector('input');
   const feedbackElement = document.querySelector('.feedback');
-  const button = document.querySelector('button');
-  const form = document.querySelector('.rss-form');
-  const feedsContainer = document.querySelector('.feeds');
-  const postsContainer = document.querySelector('.posts');
+  const buttonElement = document.querySelector('button');
+  const formElement = document.querySelector('.rss-form');
+  const feedsContainerElement = document.querySelector('.feeds');
+  const postsContainerElement = document.querySelector('.posts');
 
   const renderValidation = (valid) => {
     if (!valid) {
       inputElement.classList.add('is-invalid');
-      button.classList.add('disabled');
+      buttonElement.classList.add('disabled');
       return;
     }
     inputElement.classList.remove('is-invalid');
-    button.classList.remove('disabled');
+    buttonElement.classList.remove('disabled');
   };
 
   const renderError = (err) => {
+    console.log(err);
     inputElement.classList.remove('is-invalid');
     feedbackElement.classList.remove('text-danger');
     feedbackElement.innerHTML = '';
@@ -27,7 +44,7 @@ export default (path, value) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
-    feedbackElement.innerHTML = message;
+    feedbackElement.innerHTML = i18next.t([message, 'default']);
     feedbackElement.classList.add('text-danger');
   };
 
@@ -35,33 +52,33 @@ export default (path, value) => {
     feedbackElement.classList.remove('text', 'text-danger', 'text-success');
     feedbackElement.textContent = '';
     if (alert === 'processing') {
-      button.classList.add('disabled');
+      buttonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
-      feedbackElement.textContent = alert;
+      feedbackElement.textContent = i18next.t(alert);
     }
     if (alert === 'filling') {
-      button.classList.remove('disabled');
+      buttonElement.classList.remove('disabled');
       feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = alert;
+      feedbackElement.textContent = i18next.t(alert);
     }
   };
 
   const renderFeeds = (feeds) => {
     if (feeds.length === 0) {
-      feedsContainer.innerHTML = '';
+      feedsContainerElement.innerHTML = '';
       return;
     }
 
     const feed = feeds[0];
     const { feedName, feedDescription, feedId } = feed;
 
-    let ul = feedsContainer.querySelector('ul');
+    let ul = feedsContainerElement.querySelector('ul');
     if (!ul) {
       const h2 = document.createElement('h2');
       h2.textContent = 'Feeds';
       ul = document.createElement('ul');
       ul.classList.add('list-group', 'mb-5');
-      feedsContainer.append(h2, ul);
+      feedsContainerElement.append(h2, ul);
     }
 
     const h3 = document.createElement('h3');
@@ -78,22 +95,22 @@ export default (path, value) => {
     li.append(h3, p);
 
     ul.prepend(li);
-    form.reset();
+    formElement.reset();
   };
 
   const renderPosts = (posts) => {
     if (posts.length === 0) {
-      postsContainer.innerHTML = '';
+      postsContainerElement.innerHTML = '';
       return;
     }
 
-    let ul = postsContainer.querySelector('ul');
+    let ul = postsContainerElement.querySelector('ul');
     if (!ul) {
       const h2 = document.createElement('h2');
       h2.textContent = 'Posts';
       ul = document.createElement('ul');
       ul.classList.add('list-group');
-      postsContainer.append(h2, ul);
+      postsContainerElement.append(h2, ul);
     }
 
     const items = posts.map(({ postTitle, postLink, postId }) => {
@@ -112,7 +129,7 @@ export default (path, value) => {
       return li;
     });
     ul.prepend(...items);
-    postsContainer.append(ul);
+    postsContainerElement.append(ul);
   };
 
   switch (path) {
@@ -138,3 +155,5 @@ export default (path, value) => {
       throw new Error(`Unknown statement ${path}`);
   }
 };
+
+export { makeRendering, renderText };
