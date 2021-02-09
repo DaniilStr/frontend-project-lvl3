@@ -3,6 +3,7 @@ export default {
     double: 'Rss already exists',
     url: 'Must be valid url',
     404: 'This source doesn\'t contain valid rss',
+    updateError: 'Data update failed',
     default: 'Something went wrong...',
     processing: 'adding RSS...',
     filling: 'RSS has been loaded',

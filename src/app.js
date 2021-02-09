@@ -11,6 +11,7 @@ export default () => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
+  const periodUpdatePosts = 10000;
 
   i18next.init({
     lng: 'en',
@@ -25,6 +26,7 @@ export default () => {
     networkError: null,
     feeds: [],
     posts: [],
+    dataUpdateDate: new Date(),
     form: {
       processState: 'filling',
       fields: {
@@ -64,7 +66,7 @@ export default () => {
     } = feed;
 
     const newFeed = {
-      userInputLink: watchedState.form.fields.rssLink,
+      rssLink: watchedState.form.fields.rssLink,
       feedName,
       feedDescription,
       feedId,
@@ -74,6 +76,34 @@ export default () => {
     const newPosts = [...feedItems, ...watchedState.posts];
     watchedState.feeds = newFeeds;
     watchedState.posts = newPosts;
+  };
+
+  const updatePosts = () => {
+    let newPosts = [];
+    const { dataUpdateDate } = watchedState;
+    const { feeds } = watchedState;
+    feeds.forEach(({ rssLink }) => {
+      axios.get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+        .then((response) => parse(response.data.contents))
+        .then(({ feedItems }) => {
+          feedItems.forEach((post) => {
+            if (post.postDate > dataUpdateDate) {
+              newPosts = [post, ...newPosts];
+            }
+          });
+        })
+        .catch((err) => {
+          watchedState.networkError = new Error('updateError', err);
+          setTimeout(() => updatePosts(), periodUpdatePosts);
+        });
+    });
+
+    if (newPosts.length > 0) {
+      watchedState.posts = [...newPosts, ...watchedState.posts];
+      watchedState.dataUpdateDate = new Date();
+    }
+
+    setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
   inputElement.addEventListener('input', (e) => {
@@ -101,6 +131,7 @@ export default () => {
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
         watchedState.form.processState = 'filling';
+        updatePosts();
       })
       .catch((err) => {
         watchedState.form.processState = 'failed';

@@ -33,7 +33,6 @@ const makeRendering = (path, value) => {
   };
 
   const renderError = (err) => {
-    console.log(err);
     inputElement.classList.remove('is-invalid');
     feedbackElement.classList.remove('text-danger');
     feedbackElement.innerHTML = '';
