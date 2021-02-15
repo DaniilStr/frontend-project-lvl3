@@ -13,5 +13,8 @@ export default {
     example: 'Example: https://ru.hexlet.io/lessons.rss',
     copyright: 'designed by me',
     addButton: 'Add',
+    Preview: 'Preview',
+    Posts: 'Posts',
+    Feeds: 'Feeds',
   },
 };

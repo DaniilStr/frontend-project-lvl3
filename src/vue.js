@@ -76,7 +76,7 @@ const renderFeeds = (feeds) => {
   let ul = feedsContainerElement.querySelector('ul');
   if (!ul) {
     const h2 = document.createElement('h2');
-    h2.textContent = 'Feeds';
+    h2.textContent = i18next.t('Feeds');
     ul = document.createElement('ul');
     ul.classList.add('list-group', 'mb-5');
     feedsContainerElement.append(h2, ul);
@@ -143,7 +143,7 @@ const renderPosts = (posts) => {
 
   if (!ul) {
     const h2 = document.createElement('h2');
-    h2.textContent = 'Posts';
+    h2.textContent = i18next.t('Posts');
     ul = document.createElement('ul');
     ul.classList.add('list-group');
     postsContainerElement.append(h2, ul);
@@ -172,7 +172,7 @@ const renderPosts = (posts) => {
     );
 
     const previewBtn = document.createElement('button');
-    previewBtn.textContent = 'Preview';
+    previewBtn.textContent = i18next.t('Preview');
     previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
     previewBtn.setAttribute('type', 'button');
     previewBtn.setAttribute('data-toggle', 'modal');
