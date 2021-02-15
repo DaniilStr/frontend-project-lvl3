@@ -40,9 +40,9 @@
     "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
+    "@babel/eslint-parser": "^7.12.16",
     "@popperjs/core": "^2.6.0",
     "axios": "^0.21.1",
-    "babel-eslint": "^10.1.0",
     "bootstrap": "^4.5.3",
     "i18next": "^19.8.4",
     "jquery": "^3.5.1",
