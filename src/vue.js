@@ -1,136 +1,193 @@
 import i18next from 'i18next';
 
-const fieldElement = document.querySelector('input');
-const submitButtonElement = document.querySelector('button');
+const submitButtonElement = document.querySelector('button[type=submit]');
 const hintElement = document.querySelector('.hint');
 const mainTitleElement = document.querySelector('.mainTitle');
 const promoElement = document.querySelector('.promo');
+const inputElement = document.querySelector('input');
+const feedbackElement = document.querySelector('.feedback');
+const formElement = document.querySelector('.rss-form');
+const feedsContainerElement = document.querySelector('.feeds');
+const postsContainerElement = document.querySelector('.posts');
+const modal = document.querySelector('.modal');
+const modalTitle = modal.querySelector('.modal-title');
+const modalBody = modal.querySelector('.modal-body');
+const fullArticleBtn = modal.querySelector('.full-article');
+const modalHeaderCloseBtn = modal.querySelector('.modal-header button');
+const modalFooterCloseBtn = modal.querySelector('.modal-footer button');
 
 const renderText = (t) => {
   mainTitleElement.textContent = t('mainTitle');
   hintElement.textContent = t('example');
   submitButtonElement.textContent = t('addButton');
-  fieldElement.placeholder = t('placeholder');
+  inputElement.placeholder = t('placeholder');
   promoElement.textContent = t('promo');
 };
 
-const makeRendering = (path, value) => {
-  const inputElement = document.querySelector('input');
-  const feedbackElement = document.querySelector('.feedback');
-  const buttonElement = document.querySelector('button');
-  const formElement = document.querySelector('.rss-form');
-  const feedsContainerElement = document.querySelector('.feeds');
-  const postsContainerElement = document.querySelector('.posts');
-
-  const renderValidation = (valid) => {
-    if (!valid) {
-      inputElement.classList.add('is-invalid');
-      buttonElement.classList.add('disabled');
-      return;
-    }
-    inputElement.classList.remove('is-invalid');
-    buttonElement.classList.remove('disabled');
-  };
-
-  const renderError = (err) => {
-    inputElement.classList.remove('is-invalid');
-    feedbackElement.classList.remove('text-danger');
-    feedbackElement.innerHTML = '';
-
-    if (err === null) {
-      return;
-    }
-    const { message } = err;
-
+const renderValidation = (valid) => {
+  if (!valid) {
     inputElement.classList.add('is-invalid');
-    feedbackElement.innerHTML = i18next.t([message, 'default']);
-    feedbackElement.classList.add('text-danger');
-  };
+    submitButtonElement.classList.add('disabled');
+    return;
+  }
+  inputElement.classList.remove('is-invalid');
+  submitButtonElement.classList.remove('disabled');
+};
 
-  const renderProcessStateMessage = (alert) => {
-    feedbackElement.classList.remove('text', 'text-danger', 'text-success');
-    feedbackElement.textContent = '';
-    if (alert === 'processing') {
-      buttonElement.classList.add('disabled');
-      feedbackElement.classList.add('text');
-      feedbackElement.textContent = i18next.t(alert);
-    }
-    if (alert === 'filling') {
-      buttonElement.classList.remove('disabled');
-      feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = i18next.t(alert);
-    }
-  };
+const renderError = (err) => {
+  inputElement.classList.remove('is-invalid');
+  feedbackElement.classList.remove('text-danger');
+  feedbackElement.innerHTML = '';
 
-  const renderFeeds = (feeds) => {
-    if (feeds.length === 0) {
-      feedsContainerElement.innerHTML = '';
-      return;
-    }
+  if (err === null) {
+    return;
+  }
+  const { message } = err;
 
-    const feed = feeds[0];
-    const { feedName, feedDescription, feedId } = feed;
+  inputElement.classList.add('is-invalid');
+  feedbackElement.innerHTML = i18next.t([message, 'default']);
+  feedbackElement.classList.add('text-danger');
+};
 
-    let ul = feedsContainerElement.querySelector('ul');
-    if (!ul) {
-      const h2 = document.createElement('h2');
-      h2.textContent = 'Feeds';
-      ul = document.createElement('ul');
-      ul.classList.add('list-group', 'mb-5');
-      feedsContainerElement.append(h2, ul);
-    }
+const renderProcessStateMessage = (alert) => {
+  feedbackElement.classList.remove('text', 'text-danger', 'text-success');
+  feedbackElement.textContent = '';
+  if (alert === 'processing') {
+    submitButtonElement.classList.add('disabled');
+    feedbackElement.classList.add('text');
+    feedbackElement.textContent = i18next.t(alert);
+  }
+  if (alert === 'filling') {
+    submitButtonElement.classList.remove('disabled');
+    feedbackElement.classList.add('text-success');
+    feedbackElement.textContent = i18next.t(alert);
+  }
+};
 
-    const h3 = document.createElement('h3');
-    h3.classList.add('mb-1');
-    h3.textContent = feedName;
+const renderFeeds = (feeds) => {
+  if (feeds.length === 0) {
+    feedsContainerElement.innerHTML = '';
+    return;
+  }
 
-    const p = document.createElement('p');
-    p.classList.add('mb-1');
-    p.textContent = feedDescription;
+  const feed = feeds[0];
+  const { feedName, feedDescription, feedId } = feed;
+
+  let ul = feedsContainerElement.querySelector('ul');
+  if (!ul) {
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Feeds';
+    ul = document.createElement('ul');
+    ul.classList.add('list-group', 'mb-5');
+    feedsContainerElement.append(h2, ul);
+  }
+
+  const h3 = document.createElement('h3');
+  h3.classList.add('mb-1');
+  h3.textContent = feedName;
+
+  const p = document.createElement('p');
+  p.classList.add('mb-1');
+  p.textContent = feedDescription;
+
+  const li = document.createElement('li');
+  li.classList.add('list-group-item');
+  li.setAttribute('data-feed-id', feedId);
+  li.append(h3, p);
+
+  ul.prepend(li);
+  formElement.reset();
+};
+
+const closeModal = () => {
+  modalTitle.textContent = '';
+  modalBody.textContent = '';
+  fullArticleBtn.href = '';
+  modal.setAttribute('aria-hidden', 'true');
+  modal.removeAttribute('show');
+  modal.removeAttribute('role');
+  modal.style = 'display: none;';
+  modal.tabindex = -1;
+};
+
+modalHeaderCloseBtn.addEventListener('click', () => {
+  closeModal();
+});
+modalFooterCloseBtn.addEventListener('click', () => {
+  closeModal();
+});
+
+const renderModal = (title, description, link, a) => {
+  modalTitle.textContent = title;
+  modalBody.textContent = description;
+  fullArticleBtn.href = link;
+  fullArticleBtn.addEventListener('click', () => {
+    a.classList.remove('font-weight-bold');
+    a.classList.add('font-weight-normal');
+  });
+  modal.removeAttribute('aria-hidden');
+  modal.classList.add('show');
+  modal.style = 'display: block; padding-right: 12px;';
+  modal.tabindex = 1;
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('role', 'dialog');
+};
+
+const renderPosts = (posts) => {
+  if (posts.length === 0) {
+    postsContainerElement.innerHTML = '';
+    return;
+  }
+
+  let ul = postsContainerElement.querySelector('ul');
+
+  if (!ul) {
+    const h2 = document.createElement('h2');
+    h2.textContent = 'Posts';
+    ul = document.createElement('ul');
+    ul.classList.add('list-group');
+    postsContainerElement.append(h2, ul);
+  }
+
+  const items = posts.map(({
+    postTitle, postDescription, postLink, postId,
+  }) => {
+    const a = document.createElement('a');
+    a.setAttribute('href', postLink);
+    a.setAttribute('target', '_blank');
+    a.classList.add('font-weight-bold');
+    a.textContent = postTitle;
+    a.addEventListener('click', () => {
+      a.classList.remove('font-weight-bold');
+      a.classList.add('font-weight-normal');
+    });
 
     const li = document.createElement('li');
-    li.classList.add('list-group-item');
-    li.setAttribute('data-feed-id', feedId);
-    li.append(h3, p);
+    li.setAttribute('data-feed-id', postId);
+    li.classList.add(
+      'list-group-item',
+      'd-flex',
+      'justify-content-between',
+      'align-items-start',
+    );
 
-    ul.prepend(li);
-    formElement.reset();
-  };
-
-  const renderPosts = (posts) => {
-    if (posts.length === 0) {
-      postsContainerElement.innerHTML = '';
-      return;
-    }
-
-    let ul = postsContainerElement.querySelector('ul');
-    if (!ul) {
-      const h2 = document.createElement('h2');
-      h2.textContent = 'Posts';
-      ul = document.createElement('ul');
-      ul.classList.add('list-group');
-      postsContainerElement.append(h2, ul);
-    }
-
-    const items = posts.map(({ postTitle, postLink, postId }) => {
-      const a = document.createElement('a');
-      a.setAttribute('href', postLink);
-      a.textContent = postTitle;
-      const li = document.createElement('li');
-      li.setAttribute('data-feed-id', postId);
-      li.classList.add(
-        'list-group-item',
-        'd-flex',
-        'justify-content-between',
-        'align-items-start',
-      );
-      li.append(a);
-      return li;
+    const previewBtn = document.createElement('button');
+    previewBtn.textContent = 'Preview';
+    previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
+    previewBtn.setAttribute('type', 'button');
+    previewBtn.setAttribute('data-toggle', 'modal');
+    previewBtn.setAttribute('data-target', '#modal');
+    previewBtn.addEventListener('click', () => {
+      renderModal(postTitle, postDescription, postLink, a);
     });
-    ul.prepend(...items);
-    postsContainerElement.append(ul);
-  };
+    li.append(a, previewBtn);
+    return li;
+  });
+  ul.prepend(...items);
+  postsContainerElement.append(ul);
+};
 
+const makeRendering = (path, value) => {
   switch (path) {
     case 'form.valid':
       renderValidation(value);

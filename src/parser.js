@@ -1,5 +1,6 @@
 const getItem = (element) => ({
   postTitle: element.querySelector('title').textContent,
+  postDescription: element.querySelector('description').textContent,
   postLink: element.querySelector('link').textContent,
   postDate: element.querySelector('pubDate').textContent,
   postId: element.querySelector('guid').textContent,

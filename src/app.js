@@ -11,7 +11,7 @@ export default () => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
-  const periodUpdatePosts = 10000;
+  const periodUpdatePosts = 10 * 1000;
 
   i18next.init({
     lng: 'en',
