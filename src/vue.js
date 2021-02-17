@@ -65,11 +65,6 @@ const renderProcessStateMessage = (alert) => {
 };
 
 const renderFeeds = (feeds) => {
-  if (feeds.length === 0) {
-    feedsContainerElement.innerHTML = '';
-    return;
-  }
-
   const feed = feeds[0];
   const { feedName, feedDescription, feedId } = feed;
 
@@ -134,11 +129,6 @@ const renderModal = (title, description, link, a) => {
 };
 
 const renderPosts = (posts) => {
-  if (posts.length === 0) {
-    postsContainerElement.innerHTML = '';
-    return;
-  }
-
   let ul = postsContainerElement.querySelector('ul');
 
   if (!ul) {
