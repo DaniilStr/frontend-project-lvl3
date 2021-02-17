@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.css';
 import i18next from 'i18next';
 import onChange from 'on-change';
 import * as yup from 'yup';
