@@ -27,12 +27,17 @@ const closeModal = () => {
   modal.tabindex = -1;
 };
 
-modalHeaderCloseBtn.addEventListener('click', () => {
-  closeModal();
-});
-modalFooterCloseBtn.addEventListener('click', () => {
-  closeModal();
-});
+if (modalHeaderCloseBtn) {
+  modalHeaderCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
+}
+
+if (modalFooterCloseBtn) {
+  modalFooterCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
+}
 
 const renderText = (t) => {
   mainTitleElement.textContent = t('mainTitle');
