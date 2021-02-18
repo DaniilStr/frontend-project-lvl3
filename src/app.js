@@ -1,41 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import i18next from 'i18next';
 import onChange from 'on-change';
 import * as yup from 'yup';
 import axios from 'axios';
 import parse from './parser.js';
-import { makeRendering, renderText } from './vue.js';
-import resources from './lokales/index.js';
+import { makeRendering } from './vue.js';
 
-export default () => {
+export default (state) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
   const periodUpdatePosts = 10 * 5000;
-
-  i18next.init({
-    lng: 'en',
-    debug: true,
-    resources,
-  }, (err, t) => {
-    if (err) return console.log('something went wrong loading', err);
-    return renderText(t);
-  });
-
-  const state = {
-    networkError: null,
-    feeds: [],
-    posts: [],
-    dataUpdateDate: new Date(),
-    form: {
-      processState: 'filling',
-      fields: {
-        rssLink: '',
-      },
-      valid: true,
-      validationError: null,
-    },
-  };
 
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value);

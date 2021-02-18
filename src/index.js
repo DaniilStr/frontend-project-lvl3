@@ -1,3 +1,3 @@
-import runApp from './app.js';
+import init from './init.js';
 
-runApp();
+init();
