@@ -16,6 +16,24 @@ const fullArticleBtn = document.querySelector('.full-article');
 const modalHeaderCloseBtn = document.querySelector('.modal-header button');
 const modalFooterCloseBtn = document.querySelector('.modal-footer button');
 
+const closeModal = () => {
+  modalTitle.textContent = '';
+  modalBody.textContent = '';
+  fullArticleBtn.href = '';
+  modal.setAttribute('aria-hidden', 'true');
+  modal.removeAttribute('show');
+  modal.removeAttribute('role');
+  modal.style = 'display: none;';
+  modal.tabindex = -1;
+};
+
+modalHeaderCloseBtn.addEventListener('click', () => {
+  closeModal();
+});
+modalFooterCloseBtn.addEventListener('click', () => {
+  closeModal();
+});
+
 const renderText = (t) => {
   mainTitleElement.textContent = t('mainTitle');
   hintElement.textContent = t('example');
@@ -64,6 +82,22 @@ const renderProcessStateMessage = (alert) => {
   }
 };
 
+const renderModal = (title, description, link, a) => {
+  modalTitle.textContent = title;
+  modalBody.textContent = description;
+  fullArticleBtn.href = link;
+  fullArticleBtn.addEventListener('click', () => {
+    a.classList.remove('font-weight-bold');
+    a.classList.add('font-weight-normal');
+  });
+  modal.removeAttribute('aria-hidden');
+  modal.classList.add('show');
+  modal.style = 'display: block; padding-right: 12px;';
+  modal.tabindex = 1;
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('role', 'dialog');
+};
+
 const renderFeeds = (feeds) => {
   const feed = feeds[0];
   const { feedName, feedDescription, feedId } = feed;
@@ -93,41 +127,6 @@ const renderFeeds = (feeds) => {
   ul.prepend(li);
   formElement.reset();
 };
-
-const closeModal = () => {
-  modalTitle.textContent = '';
-  modalBody.textContent = '';
-  fullArticleBtn.href = '';
-  modal.setAttribute('aria-hidden', 'true');
-  modal.removeAttribute('show');
-  modal.removeAttribute('role');
-  modal.style = 'display: none;';
-  modal.tabindex = -1;
-};
-
-modalHeaderCloseBtn.addEventListener('click', () => {
-  closeModal();
-});
-modalFooterCloseBtn.addEventListener('click', () => {
-  closeModal();
-});
-
-const renderModal = (title, description, link, a) => {
-  modalTitle.textContent = title;
-  modalBody.textContent = description;
-  fullArticleBtn.href = link;
-  fullArticleBtn.addEventListener('click', () => {
-    a.classList.remove('font-weight-bold');
-    a.classList.add('font-weight-normal');
-  });
-  modal.removeAttribute('aria-hidden');
-  modal.classList.add('show');
-  modal.style = 'display: block; padding-right: 12px;';
-  modal.tabindex = 1;
-  modal.setAttribute('aria-modal', 'true');
-  modal.setAttribute('role', 'dialog');
-};
-
 const renderPosts = (posts) => {
   let ul = postsContainerElement.querySelector('ul');
 
