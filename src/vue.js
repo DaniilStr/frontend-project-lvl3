@@ -9,12 +9,12 @@ const feedbackElement = document.querySelector('.feedback');
 const formElement = document.querySelector('.rss-form');
 const feedsContainerElement = document.querySelector('.feeds');
 const postsContainerElement = document.querySelector('.posts');
-const modal = document.querySelector('.modal');
-const modalTitle = modal.querySelector('.modal-title');
-const modalBody = modal.querySelector('.modal-body');
-const fullArticleBtn = modal.querySelector('.full-article');
-const modalHeaderCloseBtn = modal.querySelector('.modal-header button');
-const modalFooterCloseBtn = modal.querySelector('.modal-footer button');
+const modal = document.getElementsByClassName('.modal');
+const modalTitle = document.getElementsByClassName('modal-title');
+const modalBody = document.getElementsByClassName('.modal-body');
+const fullArticleBtn = document.getElementsByClassName('.full-article');
+const modalHeaderCloseBtn = document.getElementsByClassName('.modal-header button');
+const modalFooterCloseBtn = document.getElementsByClassName('.modal-footer button');
 
 const renderText = (t) => {
   mainTitleElement.textContent = t('mainTitle');
