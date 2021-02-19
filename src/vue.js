@@ -1,9 +1,9 @@
 import i18next from 'i18next';
 
 const submitButtonElement = document.querySelector('button[type=submit]');
-const hintElement = document.querySelector('.hint');
-const mainTitleElement = document.querySelector('.mainTitle');
-const promoElement = document.querySelector('.promo');
+// const hintElement = document.querySelector('.hint');
+// const mainTitleElement = document.querySelector('.mainTitle');
+// const promoElement = document.querySelector('.promo');
 const inputElement = document.querySelector('input');
 const feedbackElement = document.querySelector('.feedback');
 const formElement = document.querySelector('.rss-form');
@@ -38,14 +38,6 @@ if (modalFooterCloseBtn) {
     closeModal();
   });
 }
-
-const renderText = (t) => {
-  mainTitleElement.textContent = t('mainTitle');
-  hintElement.textContent = t('example');
-  submitButtonElement.textContent = t('addButton');
-  inputElement.placeholder = t('placeholder');
-  promoElement.textContent = t('promo');
-};
 
 const renderValidation = (valid) => {
   if (!valid) {
@@ -181,7 +173,7 @@ const renderPosts = (posts) => {
   postsContainerElement.append(ul);
 };
 
-const makeRendering = (path, value) => {
+export default (path, value) => {
   switch (path) {
     case 'form.valid':
       renderValidation(value);
@@ -205,5 +197,3 @@ const makeRendering = (path, value) => {
       throw new Error(`Unknown statement ${path}`);
   }
 };
-
-export { makeRendering, renderText };

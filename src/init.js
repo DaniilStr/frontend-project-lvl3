@@ -1,9 +1,14 @@
 import i18next from 'i18next';
 import runApp from './app.js';
 import resources from './lokales/index.js';
-import { renderText } from './vue.js';
 
 export default () => {
+  const mainTitleElement = document.querySelector('.mainTitle');
+  const hintElement = document.querySelector('.hint');
+  const submitButtonElement = document.querySelector('button[type=submit]');
+  const inputElement = document.querySelector('input');
+  const promoElement = document.querySelector('.promo');
+
   const state = {
     networkError: null,
     feeds: [],
@@ -17,6 +22,14 @@ export default () => {
       valid: true,
       validationError: null,
     },
+  };
+
+  const renderText = (t) => {
+    mainTitleElement.textContent = t('mainTitle');
+    hintElement.textContent = t('example');
+    submitButtonElement.textContent = t('addButton');
+    inputElement.placeholder = t('placeholder');
+    promoElement.textContent = t('promo');
   };
 
   i18next.init({
