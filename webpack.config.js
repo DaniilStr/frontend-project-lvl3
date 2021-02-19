@@ -22,8 +22,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'RSS-agregator',
-      template: './src/index.html',
-      filename: 'index.bundle.html',
+      template: './template.html',
+      filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
   ],
