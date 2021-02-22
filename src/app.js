@@ -6,12 +6,26 @@ import makeRendering from './vue.js';
 
 export default (state, t) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
-  const inputElement = document.querySelector('.form-control');
-  const form = document.querySelector('.rss-form');
   const periodUpdatePosts = 10 * 5000;
 
+  const domElements = {
+    inputElement: document.querySelector('.form-control'),
+    form: document.querySelector('.rss-form'),
+    submitButtonElement: document.querySelector('button[type=submit]'),
+    feedbackElement: document.querySelector('.feedback'),
+    formElement: document.querySelector('.rss-form'),
+    feedsContainerElement: document.querySelector('.feeds'),
+    postsContainerElement: document.querySelector('.posts'),
+    modal: document.querySelector('.modal'),
+    modalTitle: document.querySelector('.modal-title'),
+    modalBody: document.querySelector('.modal-body'),
+    fullArticleBtn: document.querySelector('.full-article'),
+    modalHeaderCloseBtn: document.querySelector('.modal-header button'),
+    modalFooterCloseBtn: document.querySelector('.modal-footer button'),
+  };
+
   const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value, t);
+    makeRendering(path, value, t, domElements);
   });
 
   const schema = yup.string().url('url');
@@ -79,13 +93,13 @@ export default (state, t) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
-  inputElement.addEventListener('input', (e) => {
+  domElements.inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
   });
 
-  form.addEventListener('submit', (e) => {
+  domElements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     if (
       watchedState.form.processState === 'processing'
