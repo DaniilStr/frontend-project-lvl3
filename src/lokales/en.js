@@ -11,7 +11,6 @@ export default {
     promo: 'Start reading RSS today! It is easy, it is nicely.',
     placeholder: 'RSS link',
     example: 'Example: https://ru.hexlet.io/lessons.rss',
-    copyright: 'designed by me',
     addButton: 'Add',
     Preview: 'Preview',
     Posts: 'Posts',
