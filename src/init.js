@@ -39,5 +39,5 @@ export default () => {
   }, (err, t) => {
     if (err) return console.log('something went wrong loading', err);
     return renderText(t);
-  }).then(() => runApp(state));
+  }).then((t) => runApp(state, t));
 };

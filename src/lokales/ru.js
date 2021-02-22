@@ -13,7 +13,7 @@ export default {
     example: 'Пример: https://ru.hexlet.io/lessons.rss',
     addButton: 'Добавить',
     Preview: 'Просмотр',
-    Posts: 'Posts',
-    Feeds: 'Feeds',
+    Posts: 'Посты',
+    Feeds: 'Фиды',
   },
 };
