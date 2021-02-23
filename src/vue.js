@@ -25,17 +25,13 @@ export default (path, value, t, domElements) => {
     modal.tabindex = -1;
   };
 
-  if (modalHeaderCloseBtn) {
-    modalHeaderCloseBtn.addEventListener('click', () => {
-      closeModal();
-    });
-  }
+  modalHeaderCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
 
-  if (modalFooterCloseBtn) {
-    modalFooterCloseBtn.addEventListener('click', () => {
-      closeModal();
-    });
-  }
+  modalFooterCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
 
   const renderValidation = (valid) => {
     if (inputElement) {
@@ -60,6 +56,7 @@ export default (path, value, t, domElements) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
+    console.log('message', message);
     feedbackElement.innerHTML = t([message, 'default']);
     feedbackElement.classList.add('text-danger');
   };
