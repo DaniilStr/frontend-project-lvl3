@@ -1,6 +1,17 @@
 import i18next from 'i18next';
 
-export default (path, value, domElements) => {
+const renderText = (domElements) => {
+  const {
+    mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
+  } = domElements;
+  mainTitleElement.textContent = i18next.t('mainTitle');
+  hintElement.textContent = i18next.t('example');
+  submitButtonElement.textContent = i18next.t('addButton');
+  inputElement.placeholder = i18next.t('placeholder');
+  promoElement.textContent = i18next.t('promo');
+};
+
+const makeRendering = (path, value, domElements) => {
   const {
     submitButtonElement,
     inputElement,
@@ -193,3 +204,5 @@ export default (path, value, domElements) => {
       throw new Error(`Unknown statement ${path}`);
   }
 };
+
+export { makeRendering, renderText };
