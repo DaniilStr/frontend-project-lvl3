@@ -4,7 +4,7 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, t) => {
+export default (state) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const periodUpdatePosts = 10 * 5000;
 
@@ -25,7 +25,7 @@ export default (state, t) => {
   };
 
   const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value, t, domElements);
+    makeRendering(path, value, domElements);
   });
 
   const schema = yup.string().url('url');

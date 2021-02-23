@@ -1,4 +1,6 @@
-export default (path, value, t, domElements) => {
+import i18next from 'i18next';
+
+export default (path, value, domElements) => {
   const {
     submitButtonElement,
     inputElement,
@@ -34,15 +36,13 @@ export default (path, value, t, domElements) => {
   });
 
   const renderValidation = (valid) => {
-    if (inputElement) {
-      if (!valid) {
-        inputElement.classList.add('is-invalid');
-        submitButtonElement.classList.add('disabled');
-        return;
-      }
-      inputElement.classList.remove('is-invalid');
-      submitButtonElement.classList.remove('disabled');
+    if (!valid) {
+      inputElement.classList.add('is-invalid');
+      submitButtonElement.classList.add('disabled');
+      return;
     }
+    inputElement.classList.remove('is-invalid');
+    submitButtonElement.classList.remove('disabled');
   };
 
   const renderError = (err) => {
@@ -56,8 +56,7 @@ export default (path, value, t, domElements) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
-    console.log('message', message);
-    feedbackElement.innerHTML = t([message, 'default']);
+    feedbackElement.innerHTML = i18next.t([message, 'default']);
     feedbackElement.classList.add('text-danger');
   };
 
@@ -67,12 +66,12 @@ export default (path, value, t, domElements) => {
     if (alert === 'processing') {
       submitButtonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
-      feedbackElement.textContent = t(alert);
+      feedbackElement.textContent = i18next.t(alert);
     }
     if (alert === 'filling') {
       submitButtonElement.classList.remove('disabled');
       feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = t(alert);
+      feedbackElement.textContent = i18next.t(alert);
     }
   };
 
@@ -99,7 +98,7 @@ export default (path, value, t, domElements) => {
     let ul = feedsContainerElement.querySelector('ul');
     if (!ul) {
       const h2 = document.createElement('h2');
-      h2.textContent = t('Feeds');
+      h2.textContent = i18next.t('Feeds');
       ul = document.createElement('ul');
       ul.classList.add('list-group', 'mb-5');
       feedsContainerElement.append(h2, ul);
@@ -121,12 +120,13 @@ export default (path, value, t, domElements) => {
     ul.prepend(li);
     formElement.reset();
   };
+
   const renderPosts = (posts) => {
     let ul = postsContainerElement.querySelector('ul');
 
     if (!ul) {
       const h2 = document.createElement('h2');
-      h2.textContent = t('Posts');
+      h2.textContent = i18next.t('Posts');
       ul = document.createElement('ul');
       ul.classList.add('list-group');
       postsContainerElement.append(h2, ul);
@@ -155,7 +155,7 @@ export default (path, value, t, domElements) => {
       );
 
       const previewBtn = document.createElement('button');
-      previewBtn.textContent = t('Preview');
+      previewBtn.textContent = i18next.t('Preview');
       previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
       previewBtn.setAttribute('type', 'button');
       previewBtn.setAttribute('data-toggle', 'modal');
