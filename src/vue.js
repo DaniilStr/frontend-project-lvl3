@@ -5,10 +5,10 @@ const renderText = (domElements) => {
     mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
   } = domElements;
   mainTitleElement.textContent = i18next.t('mainTitle');
-  hintElement.textContent = i18next.t('example');
-  submitButtonElement.textContent = i18next.t('addButton');
-  inputElement.placeholder = i18next.t('placeholder');
   promoElement.textContent = i18next.t('promo');
+  inputElement.placeholder = i18next.t('placeholder');
+  submitButtonElement.textContent = i18next.t('addButton');
+  hintElement.textContent = i18next.t('example');
 };
 
 const makeRendering = (path, value, domElements) => {
@@ -57,13 +57,7 @@ const makeRendering = (path, value, domElements) => {
   };
 
   const renderError = (err) => {
-    inputElement.classList.remove('is-invalid');
-    feedbackElement.classList.remove('text-danger');
-    feedbackElement.innerHTML = '';
-
-    if (err === null) {
-      return;
-    }
+    if (err === null) return;
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
