@@ -66,8 +66,8 @@ const makeRendering = (path, value, domElements) => {
   };
 
   const renderProcessStateMessage = (alert) => {
-    // feedbackElement.classList.remove('text', 'text-danger', 'text-success');
-    // feedbackElement.textContent = '';
+    feedbackElement.classList.remove('text', 'text-danger', 'text-success');
+    feedbackElement.textContent = '';
     if (alert === 'processing') {
       submitButtonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
