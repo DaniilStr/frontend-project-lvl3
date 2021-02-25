@@ -2,11 +2,32 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import axios from 'axios';
 import parse from './parser.js';
-import makeRendering from './vue.js';
+import { makeRendering, renderText } from './vue.js';
 
-export default (state, domElements) => {
+export default (state) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const periodUpdatePosts = 10 * 5000;
+  const domElements = {
+    inputElement: document.querySelector('.form-control'),
+    form: document.querySelector('.rss-form'),
+    submitButtonElement: document.querySelector('button[type=submit]'),
+    feedbackElement: document.querySelector('.feedback'),
+    formElement: document.querySelector('.rss-form'),
+    feedsContainerElement: document.querySelector('.feeds'),
+    postsContainerElement: document.querySelector('.posts'),
+    modal: document.querySelector('.modal'),
+    modalTitle: document.querySelector('.modal-title'),
+    modalBody: document.querySelector('.modal-body'),
+    fullArticleBtn: document.querySelector('.full-article'),
+    modalHeaderCloseBtn: document.querySelector('.modal-header button'),
+    modalFooterCloseBtn: document.querySelector('.modal-footer button'),
+    mainTitleElement: document.querySelector('.mainTitle'),
+    hintElement: document.querySelector('.hint'),
+    promoElement: document.querySelector('.promo'),
+  };
+
+  renderText(domElements);
+
   const { inputElement, form } = domElements;
 
   const watchedState = onChange(state, (path, value) => {
