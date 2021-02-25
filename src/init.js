@@ -1,5 +1,5 @@
-import i18next from 'i18next';
-import runApp from './app.js';
+// import i18next from 'i18next';
+// import runApp from './app.js';
 
 export default () => {
   i18next.init({
@@ -62,5 +62,5 @@ export default () => {
     },
   };
 
-  runApp(state);
+  // runApp(state);
 };
