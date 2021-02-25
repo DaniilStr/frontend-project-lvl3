@@ -3,7 +3,7 @@ import runApp from './app.js';
 
 export default () => {
   i18next.init({
-    lng: 'en',
+    lng: 'ru',
     debug: true,
     resources: {
       ru: {
