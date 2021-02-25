@@ -61,7 +61,7 @@ const makeRendering = (path, value, domElements) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
-    feedbackElement.innerHTML = i18next.t([message, 'default']);
+    feedbackElement.innerHTML = i18next.t(message);
     feedbackElement.classList.add('text-danger');
   };
 
