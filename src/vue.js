@@ -1,16 +1,5 @@
 import i18next from 'i18next';
 
-const renderText = (domElements) => {
-  const {
-    mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
-  } = domElements;
-  mainTitleElement.textContent = i18next.t('mainTitle');
-  promoElement.textContent = i18next.t('promo');
-  inputElement.placeholder = i18next.t('placeholder');
-  submitButtonElement.textContent = i18next.t('addButton');
-  hintElement.textContent = i18next.t('example');
-};
-
 const makeRendering = (path, value, domElements) => {
   const {
     submitButtonElement,
@@ -199,4 +188,4 @@ const makeRendering = (path, value, domElements) => {
   }
 };
 
-export { makeRendering, renderText };
+export default makeRendering;

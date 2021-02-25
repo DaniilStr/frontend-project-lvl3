@@ -2,7 +2,7 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import axios from 'axios';
 import parse from './parser.js';
-import { makeRendering } from './vue.js';
+import makeRendering from './vue.js';
 
 export default (state, domElements) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';

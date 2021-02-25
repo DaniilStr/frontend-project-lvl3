@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import runApp from './app.js';
 import resources from './lokales/index.js';
-import { renderText } from './vue.js';
+// import { renderText } from './vue.js';
 
 export default () => {
   const domElements = {
@@ -21,6 +21,17 @@ export default () => {
     mainTitleElement: document.querySelector('.mainTitle'),
     hintElement: document.querySelector('.hint'),
     promoElement: document.querySelector('.promo'),
+  };
+
+  const renderText = (elements) => {
+    const {
+      mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
+    } = elements;
+    mainTitleElement.textContent = i18next.t('mainTitle');
+    promoElement.textContent = i18next.t('promo');
+    inputElement.placeholder = i18next.t('placeholder');
+    submitButtonElement.textContent = i18next.t('addButton');
+    hintElement.textContent = i18next.t('example');
   };
 
   const state = {
@@ -43,7 +54,9 @@ export default () => {
     debug: true,
     resources,
   }, (err) => {
-    console.log('error', err);
+    if (err) {
+      console.log('i18next.init error', err);
+    }
     renderText(domElements);
   }).then(() => runApp(state, domElements));
 };
