@@ -1,9 +1,10 @@
-// import i18next from 'i18next';
-// import runApp from './app.js';
+/*
+import i18next from 'i18next';
+import runApp from './app.js';
 
 export default () => {
   i18next.init({
-    lng: 'ru',
+    lng: 'en',
     debug: true,
     resources: {
       ru: {
@@ -62,5 +63,6 @@ export default () => {
     },
   };
 
-  // runApp(state);
+  runApp(state);
 };
+*/
