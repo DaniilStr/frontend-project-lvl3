@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import runApp from './app.js';
-import resources from './lokales/index.js';
+import en from './lokales/en.json';
+import ru from './lokales/ru.json';
 // import { renderText } from './vue.js';
 
 export default () => {
@@ -52,7 +53,7 @@ export default () => {
   i18next.init({
     lng: 'ru',
     debug: true,
-    resources,
+    resources: { ru, en },
   }, (err) => {
     if (err) {
       console.log('i18next.init error', err);
