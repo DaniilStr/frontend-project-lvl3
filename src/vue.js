@@ -10,6 +10,7 @@ const renderText = (elements) => {
   submitButtonElement.textContent = i18next.t('addButton');
   hintElement.textContent = i18next.t('example');
 };
+
 /*
 const {
   submitButtonElement,
@@ -26,6 +27,8 @@ const {
   modalFooterCloseBtn,
 } = domElements;
 */
+
+/*
 const inputElement = document.querySelector('.form-control');
 const submitButtonElement = document.querySelector('button[type=submit]');
 const feedbackElement = document.querySelector('.feedback');
@@ -38,8 +41,12 @@ const modalBody = document.querySelector('.modal-body');
 const fullArticleBtn = document.querySelector('.full-article');
 const modalHeaderCloseBtn = document.querySelector('.modal-header button');
 const modalFooterCloseBtn = document.querySelector('.modal-footer button');
+*/
 
-const closeModal = () => {
+const closeModal = (elements) => {
+  const {
+    modalTitle, modalBody, fullArticleBtn, modal,
+  } = elements;
   modalTitle.textContent = '';
   modalBody.textContent = '';
   fullArticleBtn.href = '';
@@ -50,19 +57,8 @@ const closeModal = () => {
   modal.tabindex = -1;
 };
 
-if (modalHeaderCloseBtn) {
-  modalHeaderCloseBtn.addEventListener('click', () => {
-    closeModal();
-  });
-}
-
-if (modalFooterCloseBtn) {
-  modalFooterCloseBtn.addEventListener('click', () => {
-    closeModal();
-  });
-}
-
-const renderValidation = (valid) => {
+const renderValidation = (valid, elements) => {
+  const { inputElement, submitButtonElement } = elements;
   if (!valid) {
     inputElement.classList.add('is-invalid');
     submitButtonElement.classList.add('disabled');
@@ -72,7 +68,8 @@ const renderValidation = (valid) => {
   submitButtonElement.classList.remove('disabled');
 };
 
-const renderError = (err) => {
+const renderError = (err, elements) => {
+  const { inputElement, feedbackElement } = elements;
   if (err === null) return;
   const { message } = err;
 
@@ -81,7 +78,8 @@ const renderError = (err) => {
   feedbackElement.classList.add('text-danger');
 };
 
-const renderProcessStateMessage = (alert) => {
+const renderProcessStateMessage = (alert, elements) => {
+  const { feedbackElement, submitButtonElement } = elements;
   feedbackElement.classList.remove('text', 'text-danger', 'text-success');
   feedbackElement.textContent = '';
   if (alert === 'processing') {
@@ -96,7 +94,10 @@ const renderProcessStateMessage = (alert) => {
   }
 };
 
-const renderModal = (title, description, link, a) => {
+const renderModal = (title, description, link, a, elements) => {
+  const {
+    modalTitle, modalBody, fullArticleBtn, modal,
+  } = elements;
   modalTitle.textContent = title;
   modalBody.textContent = description;
   fullArticleBtn.href = link;
@@ -112,7 +113,8 @@ const renderModal = (title, description, link, a) => {
   modal.setAttribute('role', 'dialog');
 };
 
-const renderFeeds = (feeds) => {
+const renderFeeds = (feeds, elements) => {
+  const { feedsContainerElement, formElement } = elements;
   const feed = feeds[0];
   const { feedName, feedDescription, feedId } = feed;
 
@@ -142,7 +144,8 @@ const renderFeeds = (feeds) => {
   formElement.reset();
 };
 
-const renderPosts = (posts) => {
+const renderPosts = (posts, elements) => {
+  const { postsContainerElement } = elements;
   let ul = postsContainerElement.querySelector('ul');
 
   if (!ul) {
@@ -182,7 +185,7 @@ const renderPosts = (posts) => {
     previewBtn.setAttribute('data-toggle', 'modal');
     previewBtn.setAttribute('data-target', '#modal');
     previewBtn.addEventListener('click', () => {
-      renderModal(postTitle, postDescription, postLink, a);
+      renderModal(postTitle, postDescription, postLink, a, elements);
     });
     li.append(a, previewBtn);
     return li;
@@ -190,6 +193,17 @@ const renderPosts = (posts) => {
   ul.prepend(...items);
   postsContainerElement.append(ul);
 };
+
+export {
+  renderValidation,
+  renderError,
+  renderFeeds,
+  renderPosts,
+  renderProcessStateMessage,
+  renderText,
+  closeModal,
+};
+
 /*
 const makeRendering = (path, value) => {
   switch (path) {
@@ -216,6 +230,3 @@ const makeRendering = (path, value) => {
   }
 };
 */
-export {
-  renderValidation, renderError, renderFeeds, renderPosts, renderProcessStateMessage, renderText,
-};

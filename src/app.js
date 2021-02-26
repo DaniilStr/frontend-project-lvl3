@@ -4,7 +4,8 @@ import * as yup from 'yup';
 import axios from 'axios';
 import parse from './parser.js';
 import {
-  renderValidation, renderError, renderFeeds, renderPosts, renderProcessStateMessage, renderText,
+  // eslint-disable-next-line max-len
+  renderValidation, renderError, renderFeeds, renderPosts, renderProcessStateMessage, renderText, closeModal,
 } from './vue.js';
 
 export default () => {
@@ -91,25 +92,35 @@ export default () => {
     },
   };
 
-  const { inputElement, form } = domElements;
+  const {
+    inputElement, form, modalHeaderCloseBtn, modalFooterCloseBtn,
+  } = domElements;
+
+  modalHeaderCloseBtn.addEventListener('click', () => {
+    closeModal(domElements);
+  });
+
+  modalFooterCloseBtn.addEventListener('click', () => {
+    closeModal(domElements);
+  });
 
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
       case 'form.valid':
-        renderValidation(value);
+        renderValidation(value, domElements);
         break;
       case 'form.validationError':
       case 'networkError':
-        renderError(value);
+        renderError(value, domElements);
         break;
       case 'feeds':
-        renderFeeds(value);
+        renderFeeds(value, domElements);
         break;
       case 'posts':
-        renderPosts(value);
+        renderPosts(value, domElements);
         break;
       case 'form.processState':
-        renderProcessStateMessage(value);
+        renderProcessStateMessage(value, domElements);
         break;
       case 'form.fields.rssLink':
         break;
