@@ -1,211 +1,184 @@
 import i18next from 'i18next';
 
-const renderText = (elements) => {
+export default (path, value, domElements) => {
+  /*
+  const inputElement = document.querySelector('.form-control');
+  const submitButtonElement = document.querySelector('button[type=submit]');
+  const feedbackElement = document.querySelector('.feedback');
+  const formElement = document.querySelector('.rss-form');
+  const feedsContainerElement = document.querySelector('.feeds');
+  const postsContainerElement = document.querySelector('.posts');
+  const modal = document.querySelector('.modal');
+  const modalTitle = document.querySelector('.modal-title');
+  const modalBody = document.querySelector('.modal-body');
+  const fullArticleBtn = document.querySelector('.full-article');
+  const modalHeaderCloseBtn = document.querySelector('.modal-header button');
+  const modalFooterCloseBtn = document.querySelector('.modal-footer button');
+  */
+
   const {
-    mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
-  } = elements;
-  mainTitleElement.textContent = i18next.t('mainTitle');
-  promoElement.textContent = i18next.t('promo');
-  inputElement.placeholder = i18next.t('placeholder');
-  submitButtonElement.textContent = i18next.t('addButton');
-  hintElement.textContent = i18next.t('example');
-};
+    submitButtonElement,
+    inputElement,
+    feedbackElement,
+    formElement,
+    feedsContainerElement,
+    postsContainerElement,
+    modal,
+    modalTitle,
+    modalBody,
+    fullArticleBtn,
+    modalHeaderCloseBtn,
+    modalFooterCloseBtn,
+  } = domElements;
 
-/*
-const {
-  submitButtonElement,
-  inputElement,
-  feedbackElement,
-  formElement,
-  feedsContainerElement,
-  postsContainerElement,
-  modal,
-  modalTitle,
-  modalBody,
-  fullArticleBtn,
-  modalHeaderCloseBtn,
-  modalFooterCloseBtn,
-} = domElements;
-*/
+  const closeModal = () => {
+    modalTitle.textContent = '';
+    modalBody.textContent = '';
+    fullArticleBtn.href = '';
+    modal.setAttribute('aria-hidden', 'true');
+    modal.removeAttribute('show');
+    modal.removeAttribute('role');
+    modal.style = 'display: none;';
+    modal.tabindex = -1;
+  };
 
-/*
-const inputElement = document.querySelector('.form-control');
-const submitButtonElement = document.querySelector('button[type=submit]');
-const feedbackElement = document.querySelector('.feedback');
-const formElement = document.querySelector('.rss-form');
-const feedsContainerElement = document.querySelector('.feeds');
-const postsContainerElement = document.querySelector('.posts');
-const modal = document.querySelector('.modal');
-const modalTitle = document.querySelector('.modal-title');
-const modalBody = document.querySelector('.modal-body');
-const fullArticleBtn = document.querySelector('.full-article');
-const modalHeaderCloseBtn = document.querySelector('.modal-header button');
-const modalFooterCloseBtn = document.querySelector('.modal-footer button');
-*/
-
-const closeModal = (elements) => {
-  const {
-    modalTitle, modalBody, fullArticleBtn, modal,
-  } = elements;
-  modalTitle.textContent = '';
-  modalBody.textContent = '';
-  fullArticleBtn.href = '';
-  modal.setAttribute('aria-hidden', 'true');
-  modal.removeAttribute('show');
-  modal.removeAttribute('role');
-  modal.style = 'display: none;';
-  modal.tabindex = -1;
-};
-
-const renderValidation = (valid, elements) => {
-  const { inputElement, submitButtonElement } = elements;
-  if (!valid) {
-    inputElement.classList.add('is-invalid');
-    submitButtonElement.classList.add('disabled');
-    return;
-  }
-  inputElement.classList.remove('is-invalid');
-  submitButtonElement.classList.remove('disabled');
-};
-
-const renderError = (err, elements) => {
-  const { inputElement, feedbackElement } = elements;
-  if (err === null) return;
-  const { message } = err;
-
-  inputElement.classList.add('is-invalid');
-  feedbackElement.innerHTML = i18next.t(message);
-  feedbackElement.classList.add('text-danger');
-};
-
-const renderProcessStateMessage = (alert, elements) => {
-  const { feedbackElement, submitButtonElement } = elements;
-  feedbackElement.classList.remove('text', 'text-danger', 'text-success');
-  // feedbackElement.textContent = '';
-  if (alert === 'processing') {
-    submitButtonElement.classList.add('disabled');
-    feedbackElement.classList.add('text');
-    feedbackElement.textContent = i18next.t(alert);
-  }
-  if (alert === 'filling') {
-    submitButtonElement.classList.remove('disabled');
-    feedbackElement.classList.add('text-success');
-    feedbackElement.textContent = i18next.t(alert);
-  }
-};
-
-const renderModal = (title, description, link, a, elements) => {
-  const {
-    modalTitle, modalBody, fullArticleBtn, modal,
-  } = elements;
-  modalTitle.textContent = title;
-  modalBody.textContent = description;
-  fullArticleBtn.href = link;
-  fullArticleBtn.addEventListener('click', () => {
-    a.classList.remove('font-weight-bold');
-    a.classList.add('font-weight-normal');
+  modalHeaderCloseBtn.addEventListener('click', () => {
+    closeModal();
   });
-  modal.removeAttribute('aria-hidden');
-  modal.classList.add('show');
-  modal.style = 'display: block; padding-right: 12px;';
-  modal.tabindex = 1;
-  modal.setAttribute('aria-modal', 'true');
-  modal.setAttribute('role', 'dialog');
-};
 
-const renderFeeds = (feeds, elements) => {
-  const { feedsContainerElement, formElement } = elements;
-  const feed = feeds[0];
-  const { feedName, feedDescription, feedId } = feed;
+  modalFooterCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
 
-  let ul = feedsContainerElement.querySelector('ul');
-  if (!ul) {
-    const h2 = document.createElement('h2');
-    h2.textContent = i18next.t('Feeds');
-    ul = document.createElement('ul');
-    ul.classList.add('list-group', 'mb-5');
-    feedsContainerElement.append(h2, ul);
-  }
+  const renderValidation = (valid) => {
+    if (!valid) {
+      inputElement.classList.add('is-invalid');
+      submitButtonElement.classList.add('disabled');
+      return;
+    }
+    inputElement.classList.remove('is-invalid');
+    submitButtonElement.classList.remove('disabled');
+  };
 
-  const h3 = document.createElement('h3');
-  h3.classList.add('mb-1');
-  h3.textContent = feedName;
+  const renderError = (err) => {
+    if (err === null) return;
+    const { message } = err;
 
-  const p = document.createElement('p');
-  p.classList.add('mb-1');
-  p.textContent = feedDescription;
+    inputElement.classList.add('is-invalid');
+    feedbackElement.innerHTML = i18next.t(message);
+    feedbackElement.classList.add('text-danger');
+  };
 
-  const li = document.createElement('li');
-  li.classList.add('list-group-item');
-  li.setAttribute('data-feed-id', feedId);
-  li.append(h3, p);
+  const renderProcessStateMessage = (alert) => {
+    feedbackElement.classList.remove('text', 'text-danger', 'text-success');
+    feedbackElement.textContent = '';
+    if (alert === 'processing') {
+      submitButtonElement.classList.add('disabled');
+      feedbackElement.classList.add('text');
+      feedbackElement.textContent = i18next.t(alert);
+    }
+    if (alert === 'filling') {
+      submitButtonElement.classList.remove('disabled');
+      feedbackElement.classList.add('text-success');
+      feedbackElement.textContent = i18next.t(alert);
+    }
+  };
 
-  ul.prepend(li);
-  formElement.reset();
-};
-
-const renderPosts = (posts, elements) => {
-  const { postsContainerElement } = elements;
-  let ul = postsContainerElement.querySelector('ul');
-
-  if (!ul) {
-    const h2 = document.createElement('h2');
-    h2.textContent = i18next.t('Posts');
-    ul = document.createElement('ul');
-    ul.classList.add('list-group');
-    postsContainerElement.append(h2, ul);
-  }
-
-  const items = posts.map(({
-    postTitle, postDescription, postLink, postId,
-  }) => {
-    const a = document.createElement('a');
-    a.setAttribute('href', postLink);
-    a.setAttribute('target', '_blank');
-    a.classList.add('font-weight-bold');
-    a.textContent = postTitle;
-    a.addEventListener('click', () => {
+  const renderModal = (title, description, link, a) => {
+    modalTitle.textContent = title;
+    modalBody.textContent = description;
+    fullArticleBtn.href = link;
+    fullArticleBtn.addEventListener('click', () => {
       a.classList.remove('font-weight-bold');
       a.classList.add('font-weight-normal');
     });
+    modal.removeAttribute('aria-hidden');
+    modal.classList.add('show');
+    modal.style = 'display: block; padding-right: 12px;';
+    modal.tabindex = 1;
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('role', 'dialog');
+  };
+
+  const renderFeeds = (feeds) => {
+    const feed = feeds[0];
+    const { feedName, feedDescription, feedId } = feed;
+
+    let ul = feedsContainerElement.querySelector('ul');
+    if (!ul) {
+      const h2 = document.createElement('h2');
+      h2.textContent = i18next.t('Feeds');
+      ul = document.createElement('ul');
+      ul.classList.add('list-group', 'mb-5');
+      feedsContainerElement.append(h2, ul);
+    }
+
+    const h3 = document.createElement('h3');
+    h3.classList.add('mb-1');
+    h3.textContent = feedName;
+
+    const p = document.createElement('p');
+    p.classList.add('mb-1');
+    p.textContent = feedDescription;
 
     const li = document.createElement('li');
-    li.setAttribute('data-feed-id', postId);
-    li.classList.add(
-      'list-group-item',
-      'd-flex',
-      'justify-content-between',
-      'align-items-start',
-    );
+    li.classList.add('list-group-item');
+    li.setAttribute('data-feed-id', feedId);
+    li.append(h3, p);
 
-    const previewBtn = document.createElement('button');
-    previewBtn.textContent = i18next.t('Preview');
-    previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
-    previewBtn.setAttribute('type', 'button');
-    previewBtn.setAttribute('data-toggle', 'modal');
-    previewBtn.setAttribute('data-target', '#modal');
-    previewBtn.addEventListener('click', () => {
-      renderModal(postTitle, postDescription, postLink, a, elements);
+    ul.prepend(li);
+    formElement.reset();
+  };
+
+  const renderPosts = (posts) => {
+    let ul = postsContainerElement.querySelector('ul');
+
+    if (!ul) {
+      const h2 = document.createElement('h2');
+      h2.textContent = i18next.t('Posts');
+      ul = document.createElement('ul');
+      ul.classList.add('list-group');
+      postsContainerElement.append(h2, ul);
+    }
+
+    const items = posts.map(({
+      postTitle, postDescription, postLink, postId,
+    }) => {
+      const a = document.createElement('a');
+      a.setAttribute('href', postLink);
+      a.setAttribute('target', '_blank');
+      a.classList.add('font-weight-bold');
+      a.textContent = postTitle;
+      a.addEventListener('click', () => {
+        a.classList.remove('font-weight-bold');
+        a.classList.add('font-weight-normal');
+      });
+
+      const li = document.createElement('li');
+      li.setAttribute('data-feed-id', postId);
+      li.classList.add(
+        'list-group-item',
+        'd-flex',
+        'justify-content-between',
+        'align-items-start',
+      );
+
+      const previewBtn = document.createElement('button');
+      previewBtn.textContent = i18next.t('Preview');
+      previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
+      previewBtn.setAttribute('type', 'button');
+      previewBtn.setAttribute('data-toggle', 'modal');
+      previewBtn.setAttribute('data-target', '#modal');
+      previewBtn.addEventListener('click', () => {
+        renderModal(postTitle, postDescription, postLink, a);
+      });
+      li.append(a, previewBtn);
+      return li;
     });
-    li.append(a, previewBtn);
-    return li;
-  });
-  ul.prepend(...items);
-  postsContainerElement.append(ul);
-};
+    ul.prepend(...items);
+    postsContainerElement.append(ul);
+  };
 
-export {
-  renderValidation,
-  renderError,
-  renderFeeds,
-  renderPosts,
-  renderProcessStateMessage,
-  renderText,
-  closeModal,
-};
-
-/*
-const makeRendering = (path, value) => {
   switch (path) {
     case 'form.valid':
       renderValidation(value);
@@ -229,4 +202,3 @@ const makeRendering = (path, value) => {
       throw new Error(`Unknown statement ${path}`);
   }
 };
-*/

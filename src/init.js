@@ -1,52 +1,26 @@
-/*
 import i18next from 'i18next';
 import runApp from './app.js';
+import resources from './lokales/index.js';
 
 export default () => {
-  i18next.init({
-    lng: 'en',
-    debug: true,
-    resources: {
-      ru: {
-        translation: {
-          double: 'RSS уже существует',
-          url: 'Ссылка должна быть валидным URL',
-          404: 'Ресурс не содержит валидный RSS',
-          updateError: 'Ошибка обновления данных',
-          default: 'Что-то пошло не так...',
-          processing: 'добавление RSS...',
-          filling: 'RSS успешно загружен',
-          mainTitle: 'RSS агрегатор',
-          promo: 'Начните читать RSS сегодня! Это легко, это красиво.',
-          placeholder: 'ссылка RSS',
-          example: 'Пример: https://ru.hexlet.io/lessons.rss',
-          addButton: 'Добавить',
-          Preview: 'Просмотр',
-          Posts: 'Посты',
-          Feeds: 'Фиды',
-        },
-      },
-      en: {
-        translation: {
-          double: 'Rss already exists',
-          url: 'Must be valid url',
-          404: 'This source doesn\'t contain valid rss',
-          updateError: 'Data update failed',
-          default: 'Something went wrong...',
-          processing: 'adding RSS...',
-          filling: 'RSS has been loaded',
-          mainTitle: 'RSS Reader',
-          promo: 'Start reading RSS today! It is easy, it is nicely.',
-          placeholder: 'RSS link',
-          example: 'Example: https://ru.hexlet.io/lessons.rss',
-          addButton: 'Add',
-          Preview: 'Preview',
-          Posts: 'Posts',
-          Feeds: 'Feeds',
-        },
-      },
-    },
-  });
+  const domElements = {
+    inputElement: document.querySelector('.form-control'),
+    form: document.querySelector('.rss-form'),
+    submitButtonElement: document.querySelector('button[type=submit]'),
+    feedbackElement: document.querySelector('.feedback'),
+    formElement: document.querySelector('.rss-form'),
+    feedsContainerElement: document.querySelector('.feeds'),
+    postsContainerElement: document.querySelector('.posts'),
+    modal: document.querySelector('.modal'),
+    modalTitle: document.querySelector('.modal-title'),
+    modalBody: document.querySelector('.modal-body'),
+    fullArticleBtn: document.querySelector('.full-article'),
+    modalHeaderCloseBtn: document.querySelector('.modal-header button'),
+    modalFooterCloseBtn: document.querySelector('.modal-footer button'),
+    mainTitleElement: document.querySelector('.mainTitle'),
+    hintElement: document.querySelector('.hint'),
+    promoElement: document.querySelector('.promo'),
+  };
 
   const state = {
     networkError: null,
@@ -63,6 +37,18 @@ export default () => {
     },
   };
 
-  runApp(state);
+  i18next.init({
+    lng: 'ru',
+    debug: true,
+    resources,
+  }, () => {
+    const {
+      mainTitleElement, hintElement, submitButtonElement, inputElement, promoElement,
+    } = domElements;
+    mainTitleElement.textContent = i18next.t('mainTitle');
+    promoElement.textContent = i18next.t('promo');
+    inputElement.placeholder = i18next.t('placeholder');
+    submitButtonElement.textContent = i18next.t('addButton');
+    hintElement.textContent = i18next.t('example');
+  }).then(() => runApp(state, domElements));
 };
-*/
