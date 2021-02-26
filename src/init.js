@@ -22,7 +22,7 @@ export default () => {
     lng: 'ru',
     debug: true,
     resources,
-  }, () => {
+  }).then(() => {
     const domElements = {
       inputElement: document.querySelector('.form-control'),
       form: document.querySelector('.rss-form'),
