@@ -81,7 +81,7 @@ const renderError = (err, elements) => {
 const renderProcessStateMessage = (alert, elements) => {
   const { feedbackElement, submitButtonElement } = elements;
   feedbackElement.classList.remove('text', 'text-danger', 'text-success');
-  feedbackElement.textContent = '';
+  // feedbackElement.textContent = '';
   if (alert === 'processing') {
     submitButtonElement.classList.add('disabled');
     feedbackElement.classList.add('text');
