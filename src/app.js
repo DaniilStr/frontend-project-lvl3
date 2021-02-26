@@ -7,8 +7,7 @@ import makeRendering from './vue.js';
 export default (state, domElements) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const periodUpdatePosts = 10 * 5000;
-
-  const { inputElement, form } = domElements;
+  const { form, inputElement } = domElements;
 
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value, domElements);
