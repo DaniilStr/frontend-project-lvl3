@@ -1,7 +1,6 @@
 import i18next from 'i18next';
 
-export default (path, value, domElements) => {
-  /*
+export default (path, value) => {
   const inputElement = document.querySelector('.form-control');
   const submitButtonElement = document.querySelector('button[type=submit]');
   const feedbackElement = document.querySelector('.feedback');
@@ -14,8 +13,8 @@ export default (path, value, domElements) => {
   const fullArticleBtn = document.querySelector('.full-article');
   const modalHeaderCloseBtn = document.querySelector('.modal-header button');
   const modalFooterCloseBtn = document.querySelector('.modal-footer button');
-  */
 
+  /*
   const {
     submitButtonElement,
     inputElement,
@@ -30,6 +29,7 @@ export default (path, value, domElements) => {
     modalHeaderCloseBtn,
     modalFooterCloseBtn,
   } = domElements;
+  */
 
   const closeModal = () => {
     modalTitle.textContent = '';
@@ -42,13 +42,15 @@ export default (path, value, domElements) => {
     modal.tabindex = -1;
   };
 
-  modalHeaderCloseBtn.addEventListener('click', () => {
-    closeModal();
-  });
+  if (modalHeaderCloseBtn && modalFooterCloseBtn) {
+    modalHeaderCloseBtn.addEventListener('click', () => {
+      closeModal();
+    });
 
-  modalFooterCloseBtn.addEventListener('click', () => {
-    closeModal();
-  });
+    modalFooterCloseBtn.addEventListener('click', () => {
+      closeModal();
+    });
+  }
 
   const renderValidation = (valid) => {
     if (!valid) {
