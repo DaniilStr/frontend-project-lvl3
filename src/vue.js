@@ -14,23 +14,6 @@ export default (path, value) => {
   const modalHeaderCloseBtn = document.querySelector('.modal-header button');
   const modalFooterCloseBtn = document.querySelector('.modal-footer button');
 
-  /*
-  const {
-    submitButtonElement,
-    inputElement,
-    feedbackElement,
-    formElement,
-    feedsContainerElement,
-    postsContainerElement,
-    modal,
-    modalTitle,
-    modalBody,
-    fullArticleBtn,
-    modalHeaderCloseBtn,
-    modalFooterCloseBtn,
-  } = domElements;
-  */
-
   const closeModal = () => {
     modalTitle.textContent = '';
     modalBody.textContent = '';
