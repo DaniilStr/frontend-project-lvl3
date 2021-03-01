@@ -25,15 +25,15 @@ export default (path, value) => {
     modal.tabindex = -1;
   };
 
-  if (modalHeaderCloseBtn && modalFooterCloseBtn) {
-    modalHeaderCloseBtn.addEventListener('click', () => {
-      closeModal();
-    });
+  // if (modalHeaderCloseBtn && modalFooterCloseBtn) {
+  modalHeaderCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
 
-    modalFooterCloseBtn.addEventListener('click', () => {
-      closeModal();
-    });
-  }
+  modalFooterCloseBtn.addEventListener('click', () => {
+    closeModal();
+  });
+  // }
 
   const renderValidation = (valid) => {
     if (!valid) {

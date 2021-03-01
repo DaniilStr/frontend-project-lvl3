@@ -10,7 +10,11 @@ export default (state) => {
   //  const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
-  const watchedState = onChange(state, (path, value) => makeRendering(path, value));
+  const watchedState = onChange(state, (path, value) => {
+    console.log('path', path);
+    console.log('value', value);
+    makeRendering(path, value);
+  });
 
   const schema = yup.string().url('url');
 
