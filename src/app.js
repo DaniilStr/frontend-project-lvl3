@@ -10,9 +10,7 @@ export default (state) => {
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
-  const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value);
-  });
+  const watchedState = onChange(state, (path, value) => makeRendering(path, value));
 
   const schema = yup.string().url('url');
 
@@ -79,36 +77,38 @@ export default (state) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
-  inputElement.addEventListener('input', (e) => {
-    const userInputLink = e.target.value.trim();
-    watchedState.form.fields.rssLink = userInputLink;
-    makeValidate(userInputLink);
-  });
+  if (inputElement && form) {
+    inputElement.addEventListener('input', (e) => {
+      const userInputLink = e.target.value.trim();
+      watchedState.form.fields.rssLink = userInputLink;
+      makeValidate(userInputLink);
+    });
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (
-      watchedState.form.processState === 'processing'
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (
+        watchedState.form.processState === 'processing'
       || !watchedState.form.valid
-    ) {
-      return;
-    }
-    watchedState.networkError = null;
-    watchedState.form.processState = 'processing';
-    const { rssLink } = watchedState.form.fields;
+      ) {
+        return;
+      }
+      watchedState.networkError = null;
+      watchedState.form.processState = 'processing';
+      const { rssLink } = watchedState.form.fields;
 
-    axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
-      .then((response) => {
-        const feed = parse(response.data.contents);
-        addFeed(feed);
-        watchedState.form.fields.rssLink = '';
-        watchedState.form.processState = 'filling';
-        updatePosts();
-      })
-      .catch((err) => {
-        watchedState.form.processState = 'failed';
-        watchedState.networkError = err.message;
-      });
-  });
+      axios
+        .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+        .then((response) => {
+          const feed = parse(response.data.contents);
+          addFeed(feed);
+          watchedState.form.fields.rssLink = '';
+          watchedState.form.processState = 'filling';
+          updatePosts();
+        })
+        .catch((err) => {
+          watchedState.form.processState = 'failed';
+          watchedState.networkError = err.message;
+        });
+    });
+  }
 };
