@@ -25,7 +25,6 @@ export default (path, value) => {
     modal.tabindex = -1;
   };
 
-  // if (modalHeaderCloseBtn && modalFooterCloseBtn) {
   modalHeaderCloseBtn.addEventListener('click', () => {
     closeModal();
   });
@@ -33,7 +32,6 @@ export default (path, value) => {
   modalFooterCloseBtn.addEventListener('click', () => {
     closeModal();
   });
-  // }
 
   const renderValidation = (valid) => {
     if (!valid) {

@@ -7,14 +7,10 @@ import makeRendering from './vue.js';
 export default (state) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const periodUpdatePosts = 10 * 5000;
-  //  const inputElement = document.querySelector('.form-control');
+  const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
-  const watchedState = onChange(state, (path, value) => {
-    console.log('path', path);
-    console.log('value', value);
-    makeRendering(path, value);
-  });
+  const watchedState = onChange(state, (path, value) => makeRendering(path, value));
 
   const schema = yup.string().url('url');
 
@@ -80,18 +76,15 @@ export default (state) => {
 
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
-  /*
+
   inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
   });
-*/
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const userInputLink = e.target[0].value.trim();
-    watchedState.form.fields.rssLink = userInputLink;
-    makeValidate(userInputLink);
 
     if (
       watchedState.form.processState === 'processing'
