@@ -12,23 +12,27 @@ export default (state) => {
 
   const watchedState = onChange(state, (path, value) => makeRendering(path, value));
 
-  const schema = yup.string().url('url');
+  const schema = yup.string();
 
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
-      ({ userInputLink }) => userInputLink,
+      ({ rssLink }) => rssLink,
     );
     let error = null;
     try {
       schema
+        .url('url')
         .notOneOf(feedUrls, 'double')
-        .validateSync(link, { abortEarly: false });
+        .validateSync(link, { abortEarly: true });
       error = null;
     } catch (err) {
       error = err;
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
+    console.log('watchedState.form.valid', watchedState.form.valid);
+    console.log('watchedState.form.validationError', watchedState.form.validationError);
+    console.log('feedUrls', feedUrls);
   };
 
   const addFeed = (feed) => {
