@@ -30,9 +30,6 @@ export default (state) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
-    console.log('watchedState.form.valid', watchedState.form.valid);
-    console.log('watchedState.form.validationError', watchedState.form.validationError);
-    console.log('feedUrls', feedUrls);
   };
 
   const addFeed = (feed) => {
