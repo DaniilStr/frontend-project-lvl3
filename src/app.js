@@ -5,8 +5,8 @@ import parse from './parser.js';
 import makeRendering from './vue.js';
 
 export default (state, i18nextInstance) => {
-  const proxyUrl = 'https://api.allorigins.win/get?url=';
-  const periodUpdatePosts = 10 * 5000;
+  const proxyUrl = 'https://hidden-lake-93699.herokuapp.com/';
+  const periodUpdatePosts = 10 * 90000;
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
