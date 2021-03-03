@@ -46,7 +46,7 @@ export default (path, value, i18nextInstance) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
-    feedbackElement.textContent = i18nextInstance.t([message, 'default']);
+    feedbackElement.textContent = i18nextInstance.t(message);
     feedbackElement.classList.add('text-danger');
   };
 
