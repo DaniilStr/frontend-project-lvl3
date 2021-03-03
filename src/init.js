@@ -18,9 +18,9 @@ export default () => {
     },
   };
 
-  i18next.init({
+  const i18nextInstance = i18next.createInstance();
+  i18nextInstance.init({
     lng: 'ru',
-    debug: true,
     resources,
   }, () => {
     const mainTitleElement = document.querySelector('.mainTitle');
@@ -29,10 +29,10 @@ export default () => {
     const submitButtonElement = document.querySelector('button[type=submit]');
     const hintElement = document.querySelector('.hint');
 
-    mainTitleElement.textContent = i18next.t('mainTitle');
-    promoElement.textContent = i18next.t('promo');
-    inputElement.placeholder = i18next.t('placeholder');
-    submitButtonElement.textContent = i18next.t('addButton');
-    hintElement.textContent = i18next.t('example');
-  }).then(() => runApp(state));
+    mainTitleElement.textContent = i18nextInstance.t('mainTitle');
+    promoElement.textContent = i18nextInstance.t('promo');
+    inputElement.placeholder = i18nextInstance.t('placeholder');
+    submitButtonElement.textContent = i18nextInstance.t('addButton');
+    hintElement.textContent = i18nextInstance.t('example');
+  }).then(() => runApp(state, i18nextInstance));
 };

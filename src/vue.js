@@ -1,6 +1,4 @@
-import i18next from 'i18next';
-
-export default (path, value) => {
+export default (path, value, i18nextInstance) => {
   const inputElement = document.querySelector('.form-control');
   const submitButtonElement = document.querySelector('button[type=submit]');
   const feedbackElement = document.querySelector('.feedback');
@@ -48,22 +46,21 @@ export default (path, value) => {
     const { message } = err;
 
     inputElement.classList.add('is-invalid');
-    feedbackElement.textContent = i18next.t(message, 'default');
+    feedbackElement.textContent = i18nextInstance.t(message, 'default');
     feedbackElement.classList.add('text-danger');
   };
 
   const renderProcessStateMessage = (alert) => {
     feedbackElement.classList.remove('text', 'text-danger', 'text-success');
-    // feedbackElement.textContent = '';
     if (alert === 'processing') {
       submitButtonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
-      feedbackElement.textContent = i18next.t(alert);
+      feedbackElement.textContent = i18nextInstance.t(alert);
     }
     if (alert === 'filling') {
       submitButtonElement.classList.remove('disabled');
       feedbackElement.classList.add('text-success');
-      feedbackElement.textContent = i18next.t(alert);
+      feedbackElement.textContent = i18nextInstance.t(alert);
     }
   };
 
@@ -90,7 +87,7 @@ export default (path, value) => {
     let ul = feedsContainerElement.querySelector('ul');
     if (!ul) {
       const h2 = document.createElement('h2');
-      h2.textContent = i18next.t('Feeds');
+      h2.textContent = i18nextInstance.t('Feeds');
       ul = document.createElement('ul');
       ul.classList.add('list-group', 'mb-5');
       feedsContainerElement.append(h2, ul);
@@ -118,7 +115,7 @@ export default (path, value) => {
 
     if (!ul) {
       const h2 = document.createElement('h2');
-      h2.textContent = i18next.t('Posts');
+      h2.textContent = i18nextInstance.t('Posts');
       ul = document.createElement('ul');
       ul.classList.add('list-group');
       postsContainerElement.append(h2, ul);
@@ -147,7 +144,7 @@ export default (path, value) => {
       );
 
       const previewBtn = document.createElement('button');
-      previewBtn.textContent = i18next.t('Preview');
+      previewBtn.textContent = i18nextInstance.t('Preview');
       previewBtn.classList.add('btn', 'btn-primary', 'btn-md');
       previewBtn.setAttribute('type', 'button');
       previewBtn.setAttribute('data-toggle', 'modal');

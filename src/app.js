@@ -4,13 +4,15 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state) => {
+export default (state, i18nextInstance) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
   const periodUpdatePosts = 10 * 5000;
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
-  const watchedState = onChange(state, (path, value) => makeRendering(path, value));
+  const watchedState = onChange(state, (path, value) => {
+    makeRendering(path, value, i18nextInstance);
+  });
 
   const schema = yup.string();
 
