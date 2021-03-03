@@ -47,7 +47,7 @@ export default (path, value, i18nextInstance) => {
 
     inputElement.classList.add('is-invalid');
     feedbackElement.textContent = i18nextInstance.t(message);
-    feedbackElement.classList.add('text-danger');
+    // feedbackElement.classList.add('text-danger');
   };
 
   const renderProcessStateMessage = (alert) => {
