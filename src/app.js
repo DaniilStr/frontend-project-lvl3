@@ -6,7 +6,7 @@ import makeRendering from './vue.js';
 
 export default (state, i18nextInstance) => {
   const proxyUrl = 'https://api.allorigins.win/get?url=';
-  const periodUpdatePosts = 10 * 5000;
+  const periodUpdatePosts = 10 * 1000;
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
@@ -100,7 +100,7 @@ export default (state, i18nextInstance) => {
     const { rssLink } = watchedState.form.fields;
 
     axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, { allowUnmocked: true })
       .then((response) => {
         const feed = parse(response.data.contents);
         addFeed(feed);
