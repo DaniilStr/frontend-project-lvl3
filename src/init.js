@@ -22,6 +22,7 @@ export default () => {
   i18nextInstance.init({
     lng: 'ru',
     resources,
+    debug: true,
   }, () => {
     const mainTitleElement = document.querySelector('.mainTitle');
     const promoElement = document.querySelector('.promo');
