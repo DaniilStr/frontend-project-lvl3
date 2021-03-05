@@ -1,20 +1,17 @@
 import onChange from 'on-change';
-import * as yup from 'yup';
 import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, t) => {
+export default (state, i18nextInstance, schema) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value, t);
+    makeRendering(path, value, i18nextInstance);
   });
-
-  const schema = yup.string();
 
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
