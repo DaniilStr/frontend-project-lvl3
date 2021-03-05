@@ -32,6 +32,9 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
+    console.log('feedUrls', feedUrls);
+    console.log('watchedState.form.valid', watchedState.form.valid);
+    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
