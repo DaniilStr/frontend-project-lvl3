@@ -103,7 +103,7 @@ export default (state, i18nextInstance) => {
     const { rssLink } = watchedState.form.fields;
 
     axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+      .get(`${proxyUrl}${rssLink}`)
       .then((response) => {
         const feed = parse(response.data.contents);
         addFeed(feed);
