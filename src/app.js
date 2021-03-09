@@ -17,6 +17,7 @@ export default (state, i18nextInstance) => {
   const schema = yup.string();
 
   const makeValidate = (link) => {
+    console.log('link for makeValidate', link);
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
     );
