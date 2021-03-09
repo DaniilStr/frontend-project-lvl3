@@ -1,9 +1,10 @@
+import * as yup from 'yup';
 import onChange from 'on-change';
 import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, i18nextInstance, schema) => {
+export default (state, i18nextInstance) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   const inputElement = document.querySelector('.form-control');
@@ -12,6 +13,8 @@ export default (state, i18nextInstance, schema) => {
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value, i18nextInstance);
   });
+
+  const schema = yup.string();
 
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(

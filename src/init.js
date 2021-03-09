@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import i18next from 'i18next';
 import runApp from './app.js';
 import resources from './lokales/index.js';
@@ -19,13 +18,10 @@ export default () => {
     },
   };
 
-  const schema = yup.string();
-
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
     lng: 'ru',
     resources,
-    debug: true,
   }, () => {
     const mainTitleElement = document.querySelector('.mainTitle');
     const promoElement = document.querySelector('.promo');
@@ -38,5 +34,5 @@ export default () => {
     inputElement.placeholder = i18nextInstance.t('placeholder');
     submitButtonElement.textContent = i18nextInstance.t('addButton');
     hintElement.textContent = i18nextInstance.t('example');
-  }).then(() => runApp(state, i18nextInstance, schema));
+  }).then(() => runApp(state, i18nextInstance));
 };
