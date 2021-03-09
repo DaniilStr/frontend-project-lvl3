@@ -5,7 +5,7 @@ import parse from './parser.js';
 import makeRendering from './vue.js';
 
 export default (state, i18nextInstance) => {
-  const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?url=';
+  const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
