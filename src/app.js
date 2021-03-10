@@ -17,7 +17,6 @@ export default (state, i18nextInstance) => {
   const schema = yup.string();
 
   const makeValidate = (link) => {
-    console.log('link for makeValidate', link);
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
     );
@@ -33,9 +32,6 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
-    console.log('feedUrls', feedUrls);
-    console.log('watchedState.form.valid', watchedState.form.valid);
-    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
@@ -97,6 +93,10 @@ export default (state, i18nextInstance) => {
     const userInputLink = e.target[0].value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
+    console.log('EVENT', e);
+    console.log('e.target', e.target);
+    console.log('e.target[0]', e.target[0]);
+    console.log('userInputLink', userInputLink);
 
     if (
       watchedState.form.processState === 'processing'
