@@ -90,13 +90,13 @@ export default (state, i18nextInstance) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const userInputLink = e.target[0].value.trim();
-    watchedState.form.fields.rssLink = userInputLink;
-    makeValidate(userInputLink);
     console.log('EVENT', e);
     console.log('e.target', e.target);
     console.log('e.target[0]', e.target[0]);
-    console.log('userInputLink', userInputLink);
+    console.log('e.target[0].value.trim()', e.target[0].value.trim());
+    const userInputLink = e.target[0].value.trim();
+    watchedState.form.fields.rssLink = userInputLink;
+    makeValidate(userInputLink);
 
     if (
       watchedState.form.processState === 'processing'
