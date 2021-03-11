@@ -16,6 +16,7 @@ export default (state, i18nextInstance) => {
 
   const schema = yup.string();
 
+  /*
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
@@ -33,6 +34,7 @@ export default (state, i18nextInstance) => {
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
   };
+  */
 
   const addFeed = (feed) => {
     const {
@@ -96,7 +98,22 @@ export default (state, i18nextInstance) => {
     console.log('e.target[0].value.trim()', e.target[0].value.trim());
     const userInputLink = e.target[0].value.trim();
     watchedState.form.fields.rssLink = userInputLink;
-    makeValidate(userInputLink);
+    // makeValidate(userInputLink);
+    const feedUrls = watchedState.feeds.map(
+      ({ rssLink }) => rssLink,
+    );
+    let error = null;
+    try {
+      schema
+        .url('url')
+        .notOneOf(feedUrls, 'double')
+        .validateSync(userInputLink, { abortEarly: true });
+      error = null;
+    } catch (err) {
+      error = err;
+    }
+    watchedState.form.valid = error === null;
+    watchedState.form.validationError = error;
 
     if (
       watchedState.form.processState === 'processing'
