@@ -7,7 +7,7 @@ import makeRendering from './vue.js';
 export default (state, i18nextInstance) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
-  // const inputElement = document.querySelector('.form-control');
+  const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
@@ -16,7 +16,6 @@ export default (state, i18nextInstance) => {
 
   const schema = yup.string();
 
-  /*
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
@@ -34,7 +33,6 @@ export default (state, i18nextInstance) => {
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
   };
-  */
 
   const addFeed = (feed) => {
     const {
@@ -82,35 +80,19 @@ export default (state, i18nextInstance) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
-  /*
   inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
   });
-  */
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    /*
     const userInputLink = e.target.elements[0].value.trim();
     watchedState.form.fields.rssLink = userInputLink;
-    // makeValidate(userInputLink);
-    const feedUrls = watchedState.feeds.map(
-      ({ rssLink }) => rssLink,
-    );
-    let error = null;
-    try {
-      schema
-        .url('url')
-        .notOneOf(feedUrls, 'double')
-        .validateSync(userInputLink, { abortEarly: true });
-      error = null;
-    } catch (err) {
-      error = err;
-    }
-    watchedState.form.valid = error === null;
-    watchedState.form.validationError = error;
-
+    makeValidate(userInputLink);
+    */
     if (
       watchedState.form.processState === 'processing'
       || !watchedState.form.valid
