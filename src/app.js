@@ -94,7 +94,7 @@ export default (state, i18nextInstance) => {
     e.preventDefault();
     console.log('EVENT', e);
     console.log('e.target', e.target);
-    console.log('e.target[0]', e.target[0]);
+    console.log('e.target.elements', e.target.elements);
     console.log('e.target[0].value.trim()', e.target[0].value.trim());
     const userInputLink = e.target[0].value.trim();
     watchedState.form.fields.rssLink = userInputLink;
