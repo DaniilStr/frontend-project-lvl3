@@ -92,10 +92,6 @@ export default (state, i18nextInstance) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log('EVENT', e);
-    console.log('e.target', e.target);
-    console.log('e.target.elements', e.target.elements.length);
-    console.log('e.target.elements[0].value.trim()', e.target.elements[0].value.trim());
     const userInputLink = e.target.elements[0].value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     // makeValidate(userInputLink);
@@ -137,6 +133,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err.message;
+        console.log('watchedState.networkError', watchedState.networkError);
       });
   });
 };
