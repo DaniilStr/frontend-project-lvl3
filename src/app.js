@@ -95,8 +95,8 @@ export default (state, i18nextInstance) => {
     console.log('EVENT', e);
     console.log('e.target', e.target);
     console.log('e.target.elements', e.target.elements);
-    console.log('e.target[0].value.trim()', e.target[0].value.trim());
-    const userInputLink = e.target[0].value.trim();
+    console.log('e.target.url.value.trim()', e.target.url.value.trim());
+    const userInputLink = e.target.url.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     // makeValidate(userInputLink);
     const feedUrls = watchedState.feeds.map(
