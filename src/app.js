@@ -21,7 +21,7 @@ export default (state, i18nextInstance) => {
     const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
     let error = null;
     try {
-      schema.validateSync(link, { abortEarly: true });
+      schema.validateSync(link);
       error = null;
     } catch (err) {
       error = err;
