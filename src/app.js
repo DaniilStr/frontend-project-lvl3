@@ -14,18 +14,14 @@ export default (state, i18nextInstance) => {
     makeRendering(path, value, i18nextInstance);
   });
 
-  const schema = yup.string();
-
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
     );
+    const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
     let error = null;
     try {
-      schema
-        .url('url')
-        .notOneOf(feedUrls, 'double')
-        .validateSync(link, { abortEarly: true });
+      schema.validateSync(link, { abortEarly: true });
       error = null;
     } catch (err) {
       error = err;
@@ -106,6 +102,7 @@ export default (state, i18nextInstance) => {
     axios
       .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
+        console.log('response', response);
         const feed = parse(response.data.contents);
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
