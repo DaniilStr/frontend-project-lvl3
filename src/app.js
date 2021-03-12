@@ -102,7 +102,9 @@ export default (state, i18nextInstance) => {
     const { rssLink } = watchedState.form.fields;
 
     axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
+        timeout: 5000,
+      })
       .then((response) => {
         console.log('response', response);
         const feed = parse(response.data.contents);
@@ -114,7 +116,6 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err.message;
-        console.log('------watchedState.networkError------', watchedState.networkError);
       });
   });
 };
