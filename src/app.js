@@ -28,6 +28,8 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
+    console.log('watchedState.form.valid', watchedState.form.valid);
+    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
@@ -112,7 +114,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err.message;
-        console.log('watchedState.networkError', watchedState.networkError);
+        console.log('------watchedState.networkError------', watchedState.networkError);
       });
   });
 };
