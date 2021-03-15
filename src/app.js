@@ -87,10 +87,12 @@ export default (state, i18nextInstance) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     /*
-    const userInputLink = e.target.elements[0].value.trim();
+    const formData = new FormData(form);
+    const userInputLink = formData.get('url').trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
     */
+
     if (
       watchedState.form.processState === 'processing'
       || !watchedState.form.valid
@@ -101,10 +103,7 @@ export default (state, i18nextInstance) => {
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
 
-    axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
-        timeout: 5000,
-      })
+    axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         console.log('response', response);
         const feed = parse(response.data.contents);
