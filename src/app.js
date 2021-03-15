@@ -18,7 +18,7 @@ export default (state, i18nextInstance) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
     );
-    const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
+    const schema = yup.string().url('url').notOneOf(feedUrls, 'double').matches(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
     let error = null;
     try {
       schema.validateSync(link);
