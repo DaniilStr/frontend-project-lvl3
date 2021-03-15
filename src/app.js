@@ -28,6 +28,7 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
+    console.log('link is valid? ', link);
     console.log('watchedState.form.valid', watchedState.form.valid);
     console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
@@ -104,10 +105,7 @@ export default (state, i18nextInstance) => {
     const { rssLink } = watchedState.form.fields;
 
     axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
-        keepAlive: true,
-        headers: { Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8' },
-      })
+      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         console.log('response', response);
         const feed = parse(response.data.contents);
