@@ -106,7 +106,7 @@ export default (state, i18nextInstance) => {
     axios
       .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
         keepAlive: true,
-        Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+        headers: { Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8' },
       })
       .then((response) => {
         console.log('response', response);
