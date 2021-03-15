@@ -103,7 +103,11 @@ export default (state, i18nextInstance) => {
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
 
-    axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+    axios
+      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
+        keepAlive: true,
+        Accept: 'text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8',
+      })
       .then((response) => {
         console.log('response', response);
         const feed = parse(response.data.contents);
