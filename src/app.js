@@ -28,9 +28,6 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
-    console.log('link is valid? ', link);
-    console.log('watchedState.form.valid', watchedState.form.valid);
-    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
@@ -105,8 +102,7 @@ export default (state, i18nextInstance) => {
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
 
-    axios
-      .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+    axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         if (response.data.status.error.name === 'RequestError') {
           console.log('response.data.status.error', response.data.status.error);
@@ -121,6 +117,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err;
+        console.log('err: ', err);
         console.log('watchedState.networkError: ', watchedState.networkError);
         console.log('err.message from catch: ', err.message);
         console.log('typeof err from catch: ', typeof err);
