@@ -7,7 +7,7 @@ import makeRendering from './vue.js';
 export default (state, i18nextInstance) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
-  const inputElement = document.querySelector('.form-control');
+  // const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
@@ -18,7 +18,7 @@ export default (state, i18nextInstance) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
     );
-    const schema = yup.string().url('url').notOneOf(feedUrls, 'double').matches(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
+    const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
     let error = null;
     try {
       schema.validateSync(link);
@@ -79,20 +79,21 @@ export default (state, i18nextInstance) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
+  /*
   inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
   });
+  */
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    /*
+
     const formData = new FormData(form);
     const userInputLink = formData.get('url').trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
-    */
 
     if (
       watchedState.form.processState === 'processing'
@@ -107,7 +108,10 @@ export default (state, i18nextInstance) => {
     axios
       .get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
-        console.log('response', response);
+        if (response.data.status.error.name === 'RequestError') {
+          console.log('response.data.status.error', response.data.status.error);
+          throw new Error('404');
+        }
         const feed = parse(response.data.contents);
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
@@ -116,7 +120,10 @@ export default (state, i18nextInstance) => {
       })
       .catch((err) => {
         watchedState.form.processState = 'failed';
-        watchedState.networkError = err.message;
+        watchedState.networkError = err;
+        console.log('watchedState.networkError: ', watchedState.networkError);
+        console.log('err.message from catch: ', err.message);
+        console.log('typeof err from catch: ', typeof err);
       });
   });
 };

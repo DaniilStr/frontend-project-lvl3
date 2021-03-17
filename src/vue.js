@@ -42,13 +42,14 @@ export default (path, value, i18nextInstance) => {
   };
 
   const renderError = (err) => {
+    inputElement.classList.remove('is-invalid');
+    feedbackElement.classList.remove('text-danger');
+    feedbackElement.innerHTML = '';
     if (err === null) return;
     const { message } = err;
-
     inputElement.classList.add('is-invalid');
     feedbackElement.textContent = i18nextInstance.t(message);
     feedbackElement.classList.add('text-danger');
-    console.log('_______________ERROR____________________', err);
   };
 
   const renderProcessStateMessage = (alert) => {
