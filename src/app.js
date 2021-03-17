@@ -28,6 +28,7 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
+    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
@@ -104,7 +105,8 @@ export default (state, i18nextInstance) => {
 
     axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
-        if (response.data.status.error.name === 'RequestError') {
+        console.log('response', response);
+        if (response.data.contents === null) {
           throw new Error('404');
         }
         const feed = parse(response.data.contents);
@@ -116,6 +118,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err;
+        console.log('err', err);
       });
   });
 };
