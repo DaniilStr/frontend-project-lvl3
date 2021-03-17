@@ -105,7 +105,6 @@ export default (state, i18nextInstance) => {
     axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         if (response.data.status.error.name === 'RequestError') {
-          console.log('response.data.status.error', response.data.status.error);
           throw new Error('404');
         }
         const feed = parse(response.data.contents);
@@ -117,10 +116,6 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err;
-        console.log('err: ', err);
-        console.log('watchedState.networkError: ', watchedState.networkError);
-        console.log('err.message from catch: ', err.message);
-        console.log('typeof err from catch: ', typeof err);
       });
   });
 };
