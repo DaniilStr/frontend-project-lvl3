@@ -7,6 +7,7 @@ const getItem = (element) => ({
 });
 
 export default (str) => {
+  if (!str) throw new Error('415');
   const domParser = new DOMParser();
   const xmlDocument = domParser.parseFromString(str, 'text/xml');
   return {
