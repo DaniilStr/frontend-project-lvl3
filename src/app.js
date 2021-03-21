@@ -7,7 +7,7 @@ import makeRendering from './vue.js';
 export default (state, i18nextInstance) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
-  // const inputElement = document.querySelector('.form-control');
+  const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
@@ -28,7 +28,6 @@ export default (state, i18nextInstance) => {
     }
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
-    console.log('watchedState.form.validationError', watchedState.form.validationError);
   };
 
   const addFeed = (feed) => {
@@ -77,22 +76,20 @@ export default (state, i18nextInstance) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
-  /*
   inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
   });
-  */
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
+    /*
     const formData = new FormData(form);
     const userInputLink = formData.get('url').trim();
     watchedState.form.fields.rssLink = userInputLink;
     makeValidate(userInputLink);
-
+    */
     if (
       watchedState.form.processState === 'processing'
       || !watchedState.form.valid
@@ -106,8 +103,8 @@ export default (state, i18nextInstance) => {
     axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         console.log('response', response);
-        if (response.data.contents === null) {
-          throw new Error('404');
+        if (!response.data.contents) {
+          throw new Error('415');
         }
         const feed = parse(response.data.contents);
         addFeed(feed);
