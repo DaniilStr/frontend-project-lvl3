@@ -97,7 +97,7 @@ export default (state, i18nextInstance) => {
     axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         console.log('response', response);
-        if (response.dats.status.error === '404') throw new Error('404');
+        if (response.data.status.error === '404') throw new Error('404');
         const feed = parse(response.data.contents);
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
