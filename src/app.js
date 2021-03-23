@@ -105,6 +105,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err;
+        console.log('err from catch', err);
       });
   });
 };
