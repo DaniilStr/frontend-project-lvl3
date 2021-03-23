@@ -95,9 +95,10 @@ export default (state, i18nextInstance) => {
     const { rssLink } = watchedState.form.fields;
 
     axios(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
-      headers: { application/rss+xml; charset=utf-8 }
+      headers: { 'content-type': 'application/rss+xml; charset=utf-8' },
     })
       .then((response) => {
+        console.log('response', response);
         const feed = parse(response.data.contents);
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
@@ -107,7 +108,7 @@ export default (state, i18nextInstance) => {
       .catch((err) => {
         watchedState.form.processState = 'failed';
         watchedState.networkError = err;
-        console.log('err.status from catch', err.status);
+        console.log('err from catch', err);
       });
   });
 };
