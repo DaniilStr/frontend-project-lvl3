@@ -7,14 +7,15 @@ const getItem = (element) => ({
 });
 
 export default (str) => {
-  if (!str) throw new Error('415');
+  if (!str) throw new Error('no-parse');
   const domParser = new DOMParser();
-  const xmlDocument = domParser.parseFromString(str, 'text/xml');
+  const xmlDocument = domParser.parseFromString(str, 'application/xml');
+  const channel = xmlDocument.querySelector('channel');
   return {
-    feedName: xmlDocument.querySelector('title').textContent,
-    feedDescription: xmlDocument.querySelector('description').textContent,
-    feedId: xmlDocument.querySelector('guid').textContent,
-    feedLink: xmlDocument.querySelector('link').textContent,
-    feedItems: [...xmlDocument.querySelectorAll('item')].map(getItem),
+    feedName: channel.querySelector('title').textContent,
+    feedDescription: channel.querySelector('description').textContent,
+    feedId: channel.querySelector('guid').textContent,
+    feedLink: channel.querySelector('link').textContent,
+    feedItems: [...channel.querySelectorAll('item')].map(getItem),
   };
 };
