@@ -94,11 +94,10 @@ export default (state, i18nextInstance) => {
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
 
-    axios(`${proxyUrl}${encodeURIComponent(rssLink)}`, {
-      headers: { 'content-type': 'application/rss+xml; charset=utf-8' },
-    })
+    axios(`${proxyUrl}${encodeURIComponent(rssLink)}`)
       .then((response) => {
         console.log('response', response);
+        if (response.dats.status.error === '404') throw new Error('404');
         const feed = parse(response.data.contents);
         addFeed(feed);
         watchedState.form.fields.rssLink = '';
