@@ -93,7 +93,10 @@ export default (state, i18nextInstance) => {
     watchedState.networkError = null;
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
-    console.log('rssLink', rssLink);
+    const feedUrls = watchedState.feeds.map(
+      ({ rssLink: link }) => link,
+    );
+    if (feedUrls.includes(rssLink)) return;
 
     axios(`${proxyUrl}${rssLink}`)
       .then((response) => {
