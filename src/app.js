@@ -84,7 +84,12 @@ export default (state, i18nextInstance) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (watchedState.form.processState === 'processing') return;
+    if (
+      watchedState.form.processState === 'processing'
+      || !watchedState.form.valid
+    ) {
+      return;
+    }
     watchedState.networkError = null;
     watchedState.form.processState = 'processing';
     const { rssLink } = watchedState.form.fields;
@@ -92,6 +97,7 @@ export default (state, i18nextInstance) => {
       ({ rssLink: link }) => link,
     );
     console.log('feedUrls.includes(rssLink)', feedUrls.includes(rssLink));
+    console.log('rssLink', rssLink);
     if (feedUrls.includes(rssLink)) return;
 
     axios(`${proxyUrl}${rssLink}`)
