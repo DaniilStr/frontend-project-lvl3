@@ -96,8 +96,9 @@ export default (state, i18nextInstance) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink: link }) => link,
     );
-    console.log('feedUrls.includes(rssLink)', feedUrls.includes(rssLink));
+    console.log('feedUrls', feedUrls);
     console.log('rssLink', rssLink);
+    console.log('feedUrls.includes(rssLink)', feedUrls.includes(rssLink));
     if (feedUrls.includes(rssLink)) return;
 
     axios(`${proxyUrl}${rssLink}`)
