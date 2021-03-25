@@ -34,11 +34,11 @@ export default (path, value, i18nextInstance) => {
   const renderValidation = (valid) => {
     if (!valid) {
       inputElement.classList.add('is-invalid');
-      submitButtonElement.classList.add('disabled');
+      // submitButtonElement.classList.add('disabled');
       return;
     }
     inputElement.classList.remove('is-invalid');
-    submitButtonElement.classList.remove('disabled');
+    // submitButtonElement.classList.remove('disabled');
   };
 
   const renderError = (err) => {
@@ -58,6 +58,10 @@ export default (path, value, i18nextInstance) => {
       submitButtonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
       feedbackElement.textContent = i18nextInstance.t(alert);
+    }
+    if (alert === 'failed') {
+      submitButtonElement.classList.remove('disabled');
+      feedbackElement.classList.add('text', 'text-danger');
     }
     if (alert === 'filling') {
       submitButtonElement.classList.remove('disabled');

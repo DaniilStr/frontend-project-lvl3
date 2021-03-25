@@ -14,6 +14,7 @@ export default (state, i18nextInstance) => {
     makeRendering(path, value, i18nextInstance);
   });
 
+  /*
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
       ({ rssLink }) => rssLink,
@@ -29,6 +30,7 @@ export default (state, i18nextInstance) => {
     watchedState.form.valid = error === null;
     watchedState.form.validationError = error;
   };
+  */
 
   const addFeed = (feed) => {
     const {
@@ -53,7 +55,7 @@ export default (state, i18nextInstance) => {
     const { dataUpdateDate } = watchedState;
     const { feeds } = watchedState;
     feeds.forEach(({ rssLink }) => {
-      axios.get(`${proxyUrl}${encodeURIComponent(rssLink)}`)
+      axios(`${proxyUrl}${rssLink}`)
         .then((response) => parse(response.data.contents))
         .then(({ feedItems }) => {
           feedItems.forEach((post) => {
@@ -86,41 +88,43 @@ export default (state, i18nextInstance) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const userInputLink = e.target.elements[0].value.trim();
-    watchedState.form.fields.rssLink = userInputLink;
-    makeValidate(userInputLink);
-
     if (
       watchedState.form.processState === 'processing'
-      || !watchedState.form.valid
     ) {
       return;
     }
     watchedState.networkError = null;
     watchedState.form.processState = 'processing';
-    const { rssLink } = watchedState.form.fields;
-    const feedUrls = watchedState.feeds.map(
-      ({ rssLink: link }) => link,
-    );
-    console.log('feedUrls', feedUrls);
-    console.log('rssLink', rssLink);
-    console.log('feedUrls.includes(rssLink)', feedUrls.includes(rssLink));
-    if (feedUrls.includes(rssLink)) return;
 
-    axios(`${proxyUrl}${rssLink}`)
-      .then((response) => {
-        console.log('response', response);
-        const feed = parse(response.data.contents);
-        addFeed(feed);
-        watchedState.form.fields.rssLink = '';
-        watchedState.form.processState = 'filling';
-        updatePosts();
-      })
-      .catch((err) => {
-        watchedState.form.processState = 'failed';
-        watchedState.networkError = err;
-        console.log('err from catch', err);
-        console.log('err.toJSON() from catch', err.toJSON());
-      });
+    const rssLink = e.target.elements[0].value.trim();
+    watchedState.form.fields.rssLink = rssLink;
+
+    const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
+    console.log('rssLink', rssLink);
+    console.log('feedUrls', feedUrls);
+
+    try {
+      const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
+      schema.validateSync(rssLink);
+      watchedState.form.valid = true;
+      watchedState.form.validationError = null;
+
+      axios(`${proxyUrl}${rssLink}`)
+        .then((response) => {
+          const feed = parse(response.data.contents);
+          addFeed(feed);
+          watchedState.form.fields.rssLink = '';
+          watchedState.form.processState = 'filling';
+          updatePosts();
+        })
+        .catch((err) => {
+          watchedState.networkError = err;
+          watchedState.form.processState = 'failed';
+        });
+    } catch (err) {
+      watchedState.form.valid = false;
+      watchedState.form.validationError = err;
+      watchedState.form.processState = 'failed';
+    }
   });
 };
