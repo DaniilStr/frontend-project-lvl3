@@ -32,6 +32,7 @@ export default (state, i18nextInstance) => {
   };
   */
 
+  /*
   const addFeed = (feed) => {
     const {
       feedName, feedDescription, feedId, feedLink, feedItems,
@@ -49,6 +50,7 @@ export default (state, i18nextInstance) => {
     watchedState.feeds = newFeeds;
     watchedState.posts = newPosts;
   };
+  */
 
   const updatePosts = () => {
     let newPosts = [];
@@ -112,7 +114,23 @@ export default (state, i18nextInstance) => {
       axios(`${proxyUrl}${rssLink}`)
         .then((response) => {
           const feed = parse(response.data.contents);
-          addFeed(feed);
+          // addFeed(feed);
+          const {
+            feedName, feedDescription, feedId, feedLink, feedItems,
+          } = feed;
+
+          const newFeed = {
+            rssLink,
+            feedName,
+            feedDescription,
+            feedId,
+            feedLink,
+          };
+          const newFeeds = [newFeed, ...watchedState.feeds];
+          const newPosts = [...feedItems, ...watchedState.posts];
+          watchedState.feeds = newFeeds;
+          watchedState.posts = newPosts;
+
           watchedState.form.fields.rssLink = '';
           watchedState.form.processState = 'filling';
           updatePosts();
