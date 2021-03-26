@@ -104,7 +104,6 @@ export default (state, i18nextInstance) => {
 
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
     console.log('rssLink', rssLink);
-    console.log('feedUrls before', feedUrls);
 
     try {
       console.log('state.feeds before', state.feeds);
@@ -120,10 +119,12 @@ export default (state, i18nextInstance) => {
           watchedState.form.fields.rssLink = '';
           watchedState.form.processState = 'filling';
           updatePosts();
+          console.log('state.feeds after', state.feeds);
         })
         .catch((err) => {
           watchedState.networkError = err;
           watchedState.form.processState = 'failed';
+          console.log('state.feeds from catch', state.feeds);
         });
     } catch (err) {
       watchedState.form.valid = false;
