@@ -4,7 +4,7 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, i18nextInstance) => {
+export default (state, t) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   // const inputElement = document.querySelector('.form-control');
@@ -15,14 +15,14 @@ export default (state, i18nextInstance) => {
   const submitButtonElement = document.querySelector('button[type=submit]');
   const hintElement = document.querySelector('.hint');
 
-  mainTitleElement.textContent = i18nextInstance.t('mainTitle');
-  promoElement.textContent = i18nextInstance.t('promo');
-  inputElement.placeholder = i18nextInstance.t('placeholder');
-  submitButtonElement.textContent = i18nextInstance.t('addButton');
-  hintElement.textContent = i18nextInstance.t('example');
+  mainTitleElement.textContent = t('mainTitle');
+  promoElement.textContent = t('promo');
+  inputElement.placeholder = t('placeholder');
+  submitButtonElement.textContent = t('addButton');
+  hintElement.textContent = t('example');
 
   const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value, i18nextInstance);
+    makeRendering(path, value, t);
   });
 
   /*
