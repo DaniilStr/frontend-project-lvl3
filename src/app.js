@@ -85,9 +85,12 @@ export default (state, i18nextInstance) => {
     makeValidate(userInputLink);
   });
   */
+  let submitCounter = 0;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
+    submitCounter += 1;
+    console.log('submitCounter', submitCounter);
     if (
       watchedState.form.processState === 'processing'
     ) {
@@ -101,10 +104,10 @@ export default (state, i18nextInstance) => {
 
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
     console.log('rssLink', rssLink);
-    console.log('feedUrls', feedUrls);
+    console.log('feedUrls before', feedUrls);
 
     try {
-      console.log('state.feeds', state.feeds);
+      console.log('state.feeds before', state.feeds);
       const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
       schema.validateSync(rssLink);
       watchedState.form.valid = true;
