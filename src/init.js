@@ -18,7 +18,7 @@ export default () => {
     },
   };
 
-  i18next.init({
+  return i18next.init({
     lng: 'ru',
     resources,
   }).then((t) => runApp(state, t));
