@@ -4,14 +4,14 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, i18nextInstance) => {
+export default (state, i18next) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   // const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
-    makeRendering(path, value, i18nextInstance);
+    makeRendering(path, value, i18next);
   });
 
   /*
