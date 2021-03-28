@@ -4,22 +4,26 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (state, t) => {
+export default (t) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   // const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
-  const mainTitleElement = document.querySelector('.mainTitle');
-  const promoElement = document.querySelector('.promo');
-  const inputElement = document.querySelector('.form-control');
-  const submitButtonElement = document.querySelector('button[type=submit]');
-  const hintElement = document.querySelector('.hint');
 
-  mainTitleElement.textContent = t('mainTitle');
-  promoElement.textContent = t('promo');
-  inputElement.placeholder = t('placeholder');
-  submitButtonElement.textContent = t('addButton');
-  hintElement.textContent = t('example');
+  const state = {
+    networkError: null,
+    feeds: [],
+    posts: [],
+    dataUpdateDate: new Date(),
+    form: {
+      processState: 'filling',
+      fields: {
+        rssLink: '',
+      },
+      valid: true,
+      validationError: null,
+    },
+  };
 
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value, t);
@@ -96,12 +100,10 @@ export default (state, t) => {
     makeValidate(userInputLink);
   });
   */
-  let submitCounter = 0;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    submitCounter += 1;
-    console.log('submitCounter', submitCounter);
+
     if (
       watchedState.form.processState === 'processing'
     ) {
