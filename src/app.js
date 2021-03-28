@@ -4,26 +4,11 @@ import axios from 'axios';
 import parse from './parser.js';
 import makeRendering from './vue.js';
 
-export default (t) => {
+export default (state, t) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
   // const inputElement = document.querySelector('.form-control');
   const form = document.querySelector('.rss-form');
-
-  const state = {
-    networkError: null,
-    feeds: [],
-    posts: [],
-    dataUpdateDate: new Date(),
-    form: {
-      processState: 'filling',
-      fields: {
-        rssLink: '',
-      },
-      valid: true,
-      validationError: null,
-    },
-  };
 
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value, t);
@@ -103,7 +88,6 @@ export default (t) => {
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-
     if (
       watchedState.form.processState === 'processing'
     ) {
@@ -116,10 +100,8 @@ export default (t) => {
     watchedState.form.fields.rssLink = rssLink;
 
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
-    console.log('rssLink', rssLink);
 
     try {
-      console.log('state.feeds before', state.feeds);
       const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
       schema.validateSync(rssLink);
       watchedState.form.valid = true;
@@ -132,12 +114,10 @@ export default (t) => {
           watchedState.form.fields.rssLink = '';
           watchedState.form.processState = 'filling';
           updatePosts();
-          console.log('state.feeds after', state.feeds);
         })
         .catch((err) => {
           watchedState.networkError = err;
           watchedState.form.processState = 'failed';
-          console.log('state.feeds from catch', state.feeds);
         });
     } catch (err) {
       watchedState.form.valid = false;
