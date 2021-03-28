@@ -102,6 +102,7 @@ export default (state, t) => {
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
 
     try {
+      console.log('state.feeds before', state.feeds);
       const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
       schema.validateSync(rssLink);
       watchedState.form.valid = true;
@@ -114,10 +115,12 @@ export default (state, t) => {
           watchedState.form.fields.rssLink = '';
           watchedState.form.processState = 'filling';
           updatePosts();
+          console.log('state.feeds after', state.feeds);
         })
         .catch((err) => {
           watchedState.networkError = err;
           watchedState.form.processState = 'failed';
+          console.log('state.feeds from catch', state.feeds);
         });
     } catch (err) {
       watchedState.form.valid = false;
