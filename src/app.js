@@ -98,6 +98,7 @@ export default (state, i18nextInstance) => {
 
     const rssLink = e.target.elements[0].value.trim();
     watchedState.form.fields.rssLink = rssLink;
+    console.log('rssLink', rssLink);
 
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
 
@@ -110,6 +111,7 @@ export default (state, i18nextInstance) => {
 
       axios(`${proxyUrl}${rssLink}`)
         .then((response) => {
+          console.log('response', response);
           const feed = parse(response.data.contents);
           addFeed(feed);
           watchedState.form.fields.rssLink = '';
