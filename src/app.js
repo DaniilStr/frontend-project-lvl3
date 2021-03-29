@@ -114,7 +114,7 @@ export default (state, i18nextInstance) => {
           addFeed(feed);
           watchedState.form.fields.rssLink = '';
           watchedState.form.processState = 'filling';
-          updatePosts();
+          setTimeout(() => updatePosts(), periodUpdatePosts);
           console.log('state.feeds after', state.feeds);
         })
         .catch((err) => {
