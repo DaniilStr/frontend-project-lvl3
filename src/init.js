@@ -34,5 +34,6 @@ export default () => {
     inputElement.placeholder = i18nextInstance.t('placeholder');
     submitButtonElement.textContent = i18nextInstance.t('addButton');
     hintElement.textContent = i18nextInstance.t('example');
-  }).then(() => runApp(state, i18nextInstance));
+    runApp(state, i18nextInstance);
+  });
 };
