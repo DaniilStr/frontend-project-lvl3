@@ -123,6 +123,7 @@ export default (state, i18nextInstance) => {
           watchedState.networkError = err;
           watchedState.form.processState = 'failed';
           console.log('state.feeds from catch', state.feeds);
+          console.log('err', err);
         });
     } catch (err) {
       watchedState.form.valid = false;
