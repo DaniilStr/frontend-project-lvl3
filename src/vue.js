@@ -55,15 +55,18 @@ export default (path, value, i18nextInstance) => {
   const renderProcessStateMessage = (alert) => {
     feedbackElement.classList.remove('text', 'text-danger', 'text-success');
     if (alert === 'processing') {
+      inputElement.setAttribute('readonly', true);
       submitButtonElement.classList.add('disabled');
       feedbackElement.classList.add('text');
       feedbackElement.textContent = i18nextInstance.t(alert);
     }
     if (alert === 'failed') {
+      inputElement.removeAttribute('readonly');
       submitButtonElement.classList.remove('disabled');
       feedbackElement.classList.add('text', 'text-danger');
     }
     if (alert === 'filling') {
+      inputElement.removeAttribute('readonly');
       submitButtonElement.classList.remove('disabled');
       feedbackElement.classList.add('text-success');
       feedbackElement.textContent = i18nextInstance.t(alert);
