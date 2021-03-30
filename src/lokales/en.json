@@ -1,6 +1,6 @@
 {
   "translation": {
-    "Network Error": "Network Error",
+    "no internet": "Network Error",
     "double": "Rss already exists",
     "url": "Must be valid url",
     "no-parse": "This source doesn't contain valid rss",
