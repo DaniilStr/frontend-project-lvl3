@@ -66,12 +66,10 @@ export default (path, value, i18nextInstance) => {
       feedbackElement.classList.add('text-danger');
     }
     if (alert === 'filling') {
-      setTimeout(() => {
-        inputElement.removeAttribute('readonly');
-        submitButtonElement.classList.remove('disabled');
-        feedbackElement.classList.add('text-success');
-        feedbackElement.textContent = i18nextInstance.t(alert);
-      }, 2000);
+      inputElement.removeAttribute('readonly');
+      submitButtonElement.classList.remove('disabled');
+      feedbackElement.classList.add('text-success');
+      feedbackElement.textContent = i18nextInstance.t(alert);
     }
   };
 
