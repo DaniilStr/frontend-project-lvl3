@@ -119,15 +119,16 @@ export default (path, value, i18nextInstance) => {
   };
 
   const renderPosts = (posts) => {
-    let ul = postsContainerElement.querySelector('ul');
-
-    if (!ul) {
+    const createUl = () => {
       const h2 = document.createElement('h2');
       h2.textContent = i18nextInstance.t('Posts');
-      ul = document.createElement('ul');
+      const ul = document.createElement('ul');
       ul.classList.add('list-group');
       postsContainerElement.append(h2, ul);
-    }
+      return ul;
+    };
+
+    const ul = postsContainerElement.querySelector('ul') ? postsContainerElement.querySelector('ul') : createUl();
 
     const items = posts.map(({
       postTitle, postDescription, postLink, postId,
