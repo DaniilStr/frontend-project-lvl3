@@ -75,14 +75,10 @@ export default (path, value, i18nextInstance) => {
     }
   };
 
-  const renderModal = (title, description, link, a) => {
+  const renderModal = (title, description, link) => {
     modalTitle.textContent = title;
     modalBody.textContent = description;
     fullArticleBtn.href = link;
-    fullArticleBtn.addEventListener('click', () => {
-      a.classList.remove('font-weight-bold');
-      a.classList.add('font-weight-normal');
-    });
     modal.removeAttribute('aria-hidden');
     modal.classList.add('show');
     modal.style = 'display: block; padding-right: 12px;';
@@ -161,6 +157,8 @@ export default (path, value, i18nextInstance) => {
       previewBtn.setAttribute('data-toggle', 'modal');
       previewBtn.setAttribute('data-target', '#modal');
       previewBtn.addEventListener('click', () => {
+        a.classList.remove('font-weight-bold');
+        a.classList.add('font-weight-normal');
         renderModal(postTitle, postDescription, postLink, a);
       });
       li.append(a, previewBtn);
