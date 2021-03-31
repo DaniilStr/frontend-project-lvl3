@@ -51,7 +51,7 @@ export default (state, i18nextInstance) => {
   };
 
   const updatePosts = () => {
-    let newPosts = [];
+    const newPosts = [];
     const { dataUpdateDate } = watchedState;
     const { feeds } = watchedState;
     feeds.forEach(({ rssLink }) => {
@@ -60,7 +60,7 @@ export default (state, i18nextInstance) => {
         .then(({ feedItems }) => {
           feedItems.forEach((post) => {
             if (post.postDate > dataUpdateDate) {
-              newPosts = [post, ...newPosts];
+              newPosts.unshift(post);
             }
           });
         })
