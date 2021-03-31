@@ -91,14 +91,15 @@ export default (path, value, i18nextInstance) => {
     const feed = feeds[0];
     const { feedName, feedDescription, feedId } = feed;
 
-    let ul = feedsContainerElement.querySelector('ul');
-    if (!ul) {
+    const createUl = () => {
       const h2 = document.createElement('h2');
       h2.textContent = i18nextInstance.t('Feeds');
-      ul = document.createElement('ul');
+      const ul = document.createElement('ul');
       ul.classList.add('list-group', 'mb-5');
       feedsContainerElement.append(h2, ul);
-    }
+      return ul;
+    };
+    const ul = feedsContainerElement.querySelector('ul') ? feedsContainerElement.querySelector('ul') : createUl();
 
     const h3 = document.createElement('h3');
     h3.classList.add('mb-1');
