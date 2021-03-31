@@ -93,17 +93,15 @@ export default (state, i18nextInstance) => {
     ) {
       return;
     }
-    watchedState.networkError = null;
     watchedState.form.processState = 'processing';
+    watchedState.networkError = null;
 
     const rssLink = e.target.elements[0].value.trim();
     watchedState.form.fields.rssLink = rssLink;
-    console.log('rssLink', rssLink);
 
     const feedUrls = watchedState.feeds.map(({ rssLink: link }) => link);
 
     try {
-      console.log('state.feeds before', state.feeds);
       const schema = yup.string().url('url').notOneOf(feedUrls, 'double');
       schema.validateSync(rssLink);
       watchedState.form.valid = true;
@@ -111,19 +109,15 @@ export default (state, i18nextInstance) => {
 
       axios(`${proxyUrl}${rssLink}`)
         .then((response) => {
-          console.log('response', response);
           const feed = parse(response.data.contents);
           addFeed(feed);
           watchedState.form.fields.rssLink = '';
-          watchedState.form.processState = 'filling';
           setTimeout(() => updatePosts(), periodUpdatePosts);
-          console.log('state.feeds after', state.feeds);
+          watchedState.form.processState = 'filling';
         })
         .catch((err) => {
           watchedState.networkError = err;
           watchedState.form.processState = 'failed';
-          console.log('state.feeds from catch', state.feeds);
-          console.log('err', err);
         });
     } catch (err) {
       watchedState.form.valid = false;
