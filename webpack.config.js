@@ -17,13 +17,13 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index.js',
+    filename: 'index.bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'RSS-agregator',
       template: 'index.html',
-      filename: 'index.bundle.html',
+      filename: 'index.html',
     }),
     new CleanWebpackPlugin(),
   ],
