@@ -6,4 +6,4 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/f5e64f9e3832e318a055/maintainability)](https://codeclimate.com/github/DaniilStr/frontend-project-lvl3/maintainability)
 
-<a href="https://rag.vercel.app/">https://rag.vercel.app/</a>
+<a href="https://rag.vercel.app/">RSS-agregator</a>
