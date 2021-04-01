@@ -9,6 +9,6 @@
 <p>
 You can try the application at the following links:
 <a href="https://rag.vercel.app/">RSS-agregator</a>
-<a href="rss-agregator-daniilstr.vercel.app/">RSS-agregator</a>
+<a href="https://rss-agregator-daniilstr.vercel.app/">RSS-agregator</a>
 <a href="https://rss-agregator-git-main-daniilstr.vercel.app/">RSS-agregator</a>
 </p>
