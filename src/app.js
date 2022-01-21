@@ -2,18 +2,22 @@ import * as yup from 'yup';
 import onChange from 'on-change';
 import axios from 'axios';
 import parse from './parser.js';
-import makeRendering from './vue.js';
+import makeRendering from './view.js';
 
 export default (state, i18nextInstance) => {
   const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
+
+  // ----- for instant validation -----
   // const inputElement = document.querySelector('.form-control');
+
   const form = document.querySelector('.rss-form');
 
   const watchedState = onChange(state, (path, value) => {
     makeRendering(path, value, i18nextInstance);
   });
 
+  // ----- for instant validation ------
   /*
   const makeValidate = (link) => {
     const feedUrls = watchedState.feeds.map(
@@ -78,6 +82,7 @@ export default (state, i18nextInstance) => {
     setTimeout(() => updatePosts(), periodUpdatePosts);
   };
 
+  // ----- for instant validation -----
   /*
   inputElement.addEventListener('input', (e) => {
     const userInputLink = e.target.value.trim();

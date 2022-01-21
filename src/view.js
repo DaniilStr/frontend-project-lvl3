@@ -76,12 +76,17 @@ export default (path, value, i18nextInstance) => {
   };
 
   const renderModal = (title, description, link) => {
-    modalTitle.textContent = title;
-    modalBody.textContent = description;
+    // ----- safely (XSS) -----
+    // modalTitle.textContent = title;
+    // modalBody.textContent = description;
+
+    modalTitle.insertAdjacentHTML('afterbegin', title);
+    modalBody.insertAdjacentHTML('afterbegin', description);
+
     fullArticleBtn.href = link;
     modal.removeAttribute('aria-hidden');
     modal.classList.add('show');
-    modal.style = 'display: block; padding-right: 12px;';
+    modal.style = 'display: block; padding-right: 12px; overflow: auto;';
     modal.tabindex = 1;
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('role', 'dialog');
