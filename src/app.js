@@ -5,7 +5,7 @@ import parse from './parser.js';
 import makeRendering from './view.js';
 
 export default (state, i18nextInstance) => {
-  const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get?disableCache=true&url=';
+  const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
   const periodUpdatePosts = 10 * 1000;
 
   // ----- for instant validation -----
